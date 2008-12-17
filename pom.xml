@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jvnet.hudson.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>1.263</version>
+        <version>1.264</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -14,4 +14,10 @@
     <version>1.0</version>
     <url>http://hudson.gotdns.com/wiki/display/HUDSON/Sidebar-Link+Plugin</url>
 
+
+  <scm>
+    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/sidebar-link-1.0</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/sidebar-link-1.0</developerConnection>
+    <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins/sidebar-link/tags/sidebar-link-1.0</url>
+  </scm>
 </project>
