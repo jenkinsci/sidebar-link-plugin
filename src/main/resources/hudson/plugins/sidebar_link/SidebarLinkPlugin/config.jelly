@@ -1,0 +1,13 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:section title="Additional Sidebar Link">
+    <f:entry title="Link URL">
+      <f:textbox name="sidebar_link.url" value="${it.url}" />
+    </f:entry>
+    <f:entry title="Link Text">
+      <f:textbox name="sidebar_link.text" value="${it.text}" />
+    </f:entry>
+    <f:entry title="Link Icon" help="/plugin/sidebar-link/help-icon.html">
+      <f:textbox name="sidebar_link.icon" value="${it.icon}" />
+    </f:entry>
+  </f:section>
+</j:jelly>
