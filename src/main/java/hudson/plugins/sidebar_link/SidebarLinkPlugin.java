@@ -12,7 +12,7 @@ import net.sf.json.JSONObject;
  * @author Alan.Harder@sun.com
  */
 public class SidebarLinkPlugin extends Plugin {
-    private String url, text, icon;
+    private String url = "", text = "", icon = null;
 
     @Override public void start() throws Exception {
 	load();
