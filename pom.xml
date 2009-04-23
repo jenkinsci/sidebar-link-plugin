@@ -12,5 +12,5 @@
     <packaging>hpi</packaging>
     <name>Sidebar Link</name>
     <version>1.2-SNAPSHOT</version>
-    <url>http://hudson.gotdns.com/wiki/display/HUDSON/Sidebar-Link+Plugin</url>
+    <url>http://wiki.hudson-ci.org/display/HUDSON/Sidebar-Link+Plugin</url>
 </project>
