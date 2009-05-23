@@ -27,30 +27,44 @@ import hudson.Plugin;
 import hudson.model.Descriptor.FormException;
 import hudson.model.Hudson;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import net.sf.json.JSONObject;
+import org.kohsuke.stapler.Stapler;
 
 /**
  * Simply add a link in the main page sidepanel.
  * @author Alan.Harder@sun.com
  */
 public class SidebarLinkPlugin extends Plugin {
-    private String url = "", text = "", icon = null;
+    private List<LinkAction> links = new ArrayList<LinkAction>();
+
+    // From older versions
+    @Deprecated private transient String url, text, icon;
 
     @Override public void start() throws Exception {
 	load();
-	Hudson.getInstance().getActions().add(new LinkAction(this));
+	Hudson.getInstance().getActions().addAll(links);
     }
 
-    public String getUrl() { return url; }
-    public String getText() { return text; }
-    public String getIcon() { return icon; }
+    public List<LinkAction> getLinks() { return links; }
 
     @Override public void configure(JSONObject formData)
 	    throws IOException, ServletException, FormException {
-	url = formData.optString("url");
-	text = formData.optString("text");
-	icon = formData.optString("icon");
+	Hudson.getInstance().getActions().removeAll(links);
+	links.clear();
+	links.addAll(Stapler.getCurrentRequest().bindJSONToList(
+	    LinkAction.class, formData.get("links")));
 	save();
+	Hudson.getInstance().getActions().addAll(links);
+    }
+
+    private Object readResolve() {
+	// Upgrade config from older version
+	if (url != null && url.length() > 0) {
+	    links.add(new LinkAction(url, text, icon));
+	}
+	return this;
     }
 }

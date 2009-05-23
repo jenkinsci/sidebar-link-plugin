@@ -26,7 +26,10 @@ package hudson.plugins.sidebar_link;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import hudson.model.Hudson;
+import net.sf.json.JSONObject;
 import org.jvnet.hudson.test.HudsonTestCase;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 
 /**
  * Test interaction of sidebar-link plugin with Hudson core.
@@ -35,13 +38,17 @@ import org.jvnet.hudson.test.HudsonTestCase;
 public class SidebarLinkTest extends HudsonTestCase {
 
     public void testPlugin() throws Exception {
-        // Configure plugin
         WebClient wc = new WebClient();
-        HtmlForm form = wc.goTo("configure").getFormByName("config");
-        form.getInputByName("sidebar_link.url").setValueAttribute("http://test.com/test");
-        form.getInputByName("sidebar_link.text").setValueAttribute("Test Link");
-        form.getInputByName("sidebar_link.icon").setValueAttribute("test.gif");
-        submit(form);
+
+        // Configure plugin
+        // (don't know how to use htmlunit with f:repeatable, so calling configure directly)
+        //HtmlForm form = wc.goTo("configure").getFormByName("config");
+        //..
+        //submit(form);
+
+        Hudson.getInstance().getActions().add(new SidebarLinkTestAction("SidebarLinkTest"));
+        // This calls action class below to call configure() (needs to be in a Stapler context)
+        wc.goTo("SidebarLinkTest");
 
         // Verify link appears on main page
         HtmlAnchor link = wc.goTo("").getFirstAnchorByText("Test Link");
@@ -49,12 +56,24 @@ public class SidebarLinkTest extends HudsonTestCase {
         assertEquals("main page href", "http://test.com/test", link.getHrefAttribute());
 
         // Create view and verify link appears on other view tabs too
-        form = wc.goTo("newView").getFormByName("createView");
+        HtmlForm form = wc.goTo("newView").getFormByName("createView");
         form.getInputByName("name").setValueAttribute("test-view");
         form.getInputByValue("hudson.model.ListView").setChecked(true);
         submit(form);
         link = wc.goTo("view/test-view/").getFirstAnchorByText("Test Link");
         assertNotNull("link missing on view page", link);
         assertEquals("view page href", "http://test.com/test", link.getHrefAttribute());
+    }
+
+    public class SidebarLinkTestAction extends LinkAction {
+        public SidebarLinkTestAction(String name) { super(name, "test", null); }
+        public void doDynamic(StaplerRequest req, StaplerResponse rsp) throws Exception {
+            JSONObject formData = new JSONObject();
+            formData.put("links", JSONObject.fromObject(
+                new LinkAction("http://test.com/test", "Test Link", "test.gif")));
+            Hudson.getInstance().getPlugin(SidebarLinkPlugin.class).configure(formData);
+            rsp.setContentType("text/html");
+            rsp.getOutputStream().close();
+        }
     }
 }

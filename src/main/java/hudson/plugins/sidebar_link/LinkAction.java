@@ -24,19 +24,23 @@
 package hudson.plugins.sidebar_link;
 
 import hudson.model.Action;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * Simple link with settings from configured plugin.
+ * Simple link.
  * @author Alan.Harder@sun.com
  */
 public class LinkAction implements Action {
-    private SidebarLinkPlugin plugin;
+    private String url, text, icon;
 
-    LinkAction(SidebarLinkPlugin plugin) {
-	this.plugin = plugin;
+    @DataBoundConstructor
+    public LinkAction(String urlName, String displayName, String iconFileName) {
+	this.url = urlName;
+	this.text = displayName;
+	this.icon = iconFileName;
     }
 
-    public String getUrlName() { return plugin.getUrl(); }
-    public String getDisplayName() { return plugin.getText(); }
-    public String getIconFileName() { return plugin.getIcon(); }
+    public String getUrlName() { return url; }
+    public String getDisplayName() { return text; }
+    public String getIconFileName() { return icon; }
 }
