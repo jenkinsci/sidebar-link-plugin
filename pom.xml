@@ -13,4 +13,12 @@
     <name>Sidebar Link</name>
     <version>1.3-SNAPSHOT</version>
     <url>http://wiki.hudson-ci.org/display/HUDSON/Sidebar-Link+Plugin</url>
+
+    <developers>
+      <developer>
+        <id>mindless</id>
+        <name>Alan Harder</name>
+        <email>alan.harder@sun.com</email>
+      </developer>
+    </developers>
 </project>
