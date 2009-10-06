@@ -71,7 +71,7 @@ public class SidebarLinkTest extends HudsonTestCase {
             JSONObject formData = new JSONObject();
             formData.put("links", JSONObject.fromObject(
                 new LinkAction("http://test.com/test", "Test Link", "test.gif")));
-            Hudson.getInstance().getPlugin(SidebarLinkPlugin.class).configure(formData);
+            Hudson.getInstance().getPlugin(SidebarLinkPlugin.class).configure(req, formData);
             rsp.setContentType("text/html");
             rsp.getOutputStream().close();
         }

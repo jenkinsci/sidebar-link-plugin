@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import net.sf.json.JSONObject;
-import org.kohsuke.stapler.Stapler;
+import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * Simply add a link in the main page sidepanel.
@@ -50,12 +50,11 @@ public class SidebarLinkPlugin extends Plugin {
 
     public List<LinkAction> getLinks() { return links; }
 
-    @Override public void configure(JSONObject formData)
+    @Override public void configure(StaplerRequest req, JSONObject formData)
 	    throws IOException, ServletException, FormException {
 	Hudson.getInstance().getActions().removeAll(links);
 	links.clear();
-	links.addAll(Stapler.getCurrentRequest().bindJSONToList(
-	    LinkAction.class, formData.get("links")));
+	links.addAll(req.bindJSONToList(LinkAction.class, formData.get("links")));
 	save();
 	Hudson.getInstance().getActions().addAll(links);
     }
