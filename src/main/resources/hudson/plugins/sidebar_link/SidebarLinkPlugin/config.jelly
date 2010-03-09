@@ -6,7 +6,7 @@
              description="${%List of extra links for Hudson main page and view tabs}">
       <f:repeatable var="link" items="${it.links}" name="links" add="${%Add Link}">
         <table class="sidebar_link">
-          <f:entry title="${%Link URL}">
+          <f:entry title="${%Link URL}" help="/plugin/sidebar-link/help-url.html">
             <f:textbox name="urlName" value="${link.urlName}"/>
           </f:entry>
           <f:entry title="${%Link Text}">
