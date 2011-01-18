@@ -28,7 +28,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * Simple link.
- * @author Alan.Harder@sun.com
+ * @author Alan Harder
  */
 public class LinkAction implements Action {
     private String url, text, icon;
