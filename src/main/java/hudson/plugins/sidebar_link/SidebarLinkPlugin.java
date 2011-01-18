@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2004-2009, Sun Microsystems, Inc., Alan Harder
+ * Copyright (c) 2004-2011, Sun Microsystems, Inc., Alan Harder
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package hudson.plugins.sidebar_link;
 
+import hudson.FilePath;
 import hudson.Plugin;
 import hudson.model.Descriptor.FormException;
 import hudson.model.Hudson;
@@ -31,11 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import net.sf.json.JSONObject;
+import org.apache.commons.fileupload.FileItem;
 import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 
 /**
  * Simply add a link in the main page sidepanel.
- * @author Alan.Harder@sun.com
+ * @author Alan Harder
  */
 public class SidebarLinkPlugin extends Plugin {
     private List<LinkAction> links = new ArrayList<LinkAction>();
@@ -65,5 +68,35 @@ public class SidebarLinkPlugin extends Plugin {
 	    links.add(new LinkAction(url, text, icon));
 	}
 	return this;
+    }
+
+    /**
+     * Receive file upload from startUpload.jelly.
+     * File is placed in $HUDSON_HOME/userContent directory.
+     */
+    public void doUpload(StaplerRequest req, StaplerResponse rsp)
+            throws IOException, ServletException, InterruptedException {
+        Hudson hudson = Hudson.getInstance();
+        hudson.checkPermission(Hudson.ADMINISTER);
+        FileItem file = req.getFileItem("linkimage.file");
+        String error = null, filename = null;
+        if (file == null)
+            error = Messages.NoFile();
+        else {
+            filename = "userContent/"
+                    // Sanitize given filename:
+                    + file.getName().replaceFirst(".*/", "").replaceAll("[^\\w.,;:()#@!=+-]", "_");
+            FilePath imageFile = hudson.getRootPath().child(filename);
+            if (imageFile.exists())
+                error = Messages.DupName();
+            else {
+                imageFile.copyFrom(file.getInputStream());
+                imageFile.chmod(0644);
+            }
+        }
+        rsp.setContentType("text/html");
+        rsp.getWriter().println(
+                (error != null ? error : Messages.Uploaded("<tt>/" + filename + "</tt>"))
+                + " <a href=\"javascript:history.back()\">" + Messages.Back() + "</a>");
     }
 }

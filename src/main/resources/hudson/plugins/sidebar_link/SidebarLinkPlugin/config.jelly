@@ -19,5 +19,11 @@
         </table>
       </f:repeatable>
     </f:entry>
+    <f:entry>
+      <j:set var="url" value="${rootURL}/plugin/sidebar-link/startUpload"/>
+      <iframe src="${url}" frameborder="0" style="width:100%;height:4em;margin-top:2em">
+        <a href="${url}" target="_blank">${%Upload image file...}</a>
+      </iframe>
+    </f:entry>
   </f:section>
 </j:jelly>

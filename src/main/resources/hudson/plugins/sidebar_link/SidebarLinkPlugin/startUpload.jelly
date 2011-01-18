@@ -1,0 +1,20 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<l:ajax>
+  <html>
+    <head>
+      <link rel="stylesheet" href="${resURL}/css/style.css" type="text/css" />
+      <link rel="stylesheet" href="${resURL}/css/color.css" type="text/css" />
+    </head>
+    <body>
+      <form method="post" action="upload" enctype="multipart/form-data">
+        <span class="setting-name">${%Upload an image file:}</span>
+        <input type="file" name="linkimage.file" size="40"/>
+        <st:nbsp/>
+        <input type="submit" value="${%Upload}"/>
+        <br/>
+        <span class="setting-description">${%Image should be square; will be rendered as 24x24.}</span>
+      </form>
+    </body>
+  </html>
+</l:ajax>
+</j:jelly>
