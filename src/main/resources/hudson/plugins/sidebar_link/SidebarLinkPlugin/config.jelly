@@ -1,23 +1,9 @@
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <!-- l:header does not work here -->
-  <style type="text/css"> table.sidebar_link td { vertical-align:middle; } </style>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:sl="/hudson/plugins/sidebar_link">
   <f:section title="${%Additional Sidebar Links}">
     <f:entry title="${%Sidebar Links}"
              description="${%List of extra links for Hudson main page and view tabs}">
-      <f:repeatable var="link" items="${it.links}" name="links" add="${%Add Link}">
-        <table class="sidebar_link">
-          <f:entry title="${%Link URL}" help="/plugin/sidebar-link/help-url.html">
-            <f:textbox name="urlName" value="${link.urlName}"/>
-          </f:entry>
-          <f:entry title="${%Link Text}">
-            <f:textbox name="displayName" value="${link.displayName}"/>
-          </f:entry>
-          <f:entry title="${%Link Icon}" help="/plugin/sidebar-link/help-icon.html">
-            <f:textbox name="iconFileName" value="${link.iconFileName}"/>
-          </f:entry>
-          <f:entry><f:repeatableDeleteButton/></f:entry>
-        </table>
-      </f:repeatable>
+      <sl:links links="${it.links}"/>
     </f:entry>
     <f:entry>
       <j:set var="url" value="${rootURL}/plugin/sidebar-link/startUpload"/>
