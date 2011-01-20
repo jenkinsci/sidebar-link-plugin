@@ -11,7 +11,7 @@
     <artifactId>sidebar-link</artifactId>
     <packaging>hpi</packaging>
     <name>Sidebar Link</name>
-    <version>1.5</version>
+    <version>1.6-SNAPSHOT</version>
     <url>http://wiki.hudson-ci.org/display/HUDSON/Sidebar-Link+Plugin</url>
 
     <developers>
@@ -21,10 +21,4 @@
         <email>mindless@dev.java.net</email>
       </developer>
     </developers>
-
-  <scm>
-    <connection>scm:svn:https://guest@svn.java.net/svn/hudson~svn/tags/sidebar-link-1.5</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/hudson~svn/tags/sidebar-link-1.5</developerConnection>
-    <url>http://java.net/projects/hudson/sources/svn/show/tags/sidebar-link-1.5</url>
-  </scm>
 </project>
