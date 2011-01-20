@@ -37,7 +37,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
 /**
- * Simply add a link in the main page sidepanel.
+ * Add links in the main page sidepanel.
  * @author Alan Harder
  */
 public class SidebarLinkPlugin extends Plugin {
@@ -80,7 +80,7 @@ public class SidebarLinkPlugin extends Plugin {
         hudson.checkPermission(Hudson.ADMINISTER);
         FileItem file = req.getFileItem("linkimage.file");
         String error = null, filename = null;
-        if (file == null)
+        if (file == null || file.getName().isEmpty())
             error = Messages.NoFile();
         else {
             filename = "userContent/"
