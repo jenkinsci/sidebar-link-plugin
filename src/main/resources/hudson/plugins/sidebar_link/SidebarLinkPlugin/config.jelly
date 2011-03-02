@@ -2,7 +2,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:sl="/hudson/plugins/sidebar_link">
   <f:section title="${%Additional Sidebar Links}">
     <f:entry title="${%Sidebar Links}"
-             description="${%List of extra links for Hudson main page and view tabs}">
+             description="${%List of extra links for Jenkins main pages and view tabs}">
       <sl:links links="${it.links}"/>
     </f:entry>
     <f:entry>

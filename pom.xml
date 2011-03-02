@@ -2,23 +2,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jvnet.hudson.plugins</groupId>
+        <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>1.358</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.397</version>
     </parent>
 
     <artifactId>sidebar-link</artifactId>
     <packaging>hpi</packaging>
     <name>Sidebar Link</name>
     <version>1.6-SNAPSHOT</version>
-    <url>http://wiki.hudson-ci.org/display/HUDSON/Sidebar-Link+Plugin</url>
+    <url>http://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin</url>
 
     <developers>
       <developer>
         <id>mindless</id>
         <name>Alan Harder</name>
-        <email>mindless@dev.java.net</email>
       </developer>
     </developers>
 </project>

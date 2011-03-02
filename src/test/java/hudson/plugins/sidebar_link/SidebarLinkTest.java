@@ -32,8 +32,8 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
 /**
- * Test interaction of sidebar-link plugin with Hudson core.
- * @author Alan.Harder@sun.com
+ * Test interaction of sidebar-link plugin with Jenkins core.
+ * @author Alan Harder
  */
 public class SidebarLinkTest extends HudsonTestCase {
 
