@@ -10,7 +10,7 @@
     <artifactId>sidebar-link</artifactId>
     <packaging>hpi</packaging>
     <name>Sidebar Link</name>
-    <version>1.6-SNAPSHOT</version>
+    <version>1.6</version>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin</url>
 
     <developers>
