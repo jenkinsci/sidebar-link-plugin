@@ -19,4 +19,10 @@
         <name>Alan Harder</name>
       </developer>
     </developers>
+
+    <scm>
+      <connection>scm:git:git://github.com/jenkinsci/sidebar-link-plugin.git</connection>
+      <developerConnection>scm:git:git@github.com:jenkinsci/sidebar-link-plugin.git</developerConnection>
+      <url>https://github.com/jenkinsci/sidebar-link-plugin</url>
+    </scm>
 </project>
