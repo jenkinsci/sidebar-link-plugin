@@ -44,7 +44,9 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
 
     @DataBoundConstructor
     public ProjectLinks(List<LinkAction> links) {
-        this.links = links;
+        if (links != null) {
+            this.links = links;
+        }
     }
 
     public List<LinkAction> getLinks() { return links; }
@@ -52,6 +54,13 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
     @Override
     public Collection<? extends Action> getJobActions(AbstractProject<?,?> job) {
         return links;
+    }
+
+    private Object readResolve() {
+        if (links == null) {
+            links = new ArrayList<LinkAction>();
+        }
+        return this;
     }
 
     @Extension
