@@ -51,6 +51,8 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
 
     @Override
     public Collection<? extends Action> getJobActions(AbstractProject<?,?> job) {
+        if(links == null)
+            return new ArrayList<LinkAction>();
         return links;
     }
 

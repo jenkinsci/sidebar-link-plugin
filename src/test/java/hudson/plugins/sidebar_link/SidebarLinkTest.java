@@ -56,7 +56,7 @@ public class SidebarLinkTest extends HudsonTestCase {
         assertEquals("main page href", "http://test.com/test", link.getHrefAttribute());
 
         // Create view and verify link appears on other view tabs too
-        HtmlForm form = wc.goTo("newView").getFormByName("createView");
+        HtmlForm form = wc.goTo("newView").getFormByName("createItem");
         form.getInputByName("name").setValueAttribute("test-view");
         form.getInputByValue("hudson.model.ListView").setChecked(true);
         submit(form);
