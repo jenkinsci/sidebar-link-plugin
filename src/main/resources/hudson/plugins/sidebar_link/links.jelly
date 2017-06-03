@@ -5,7 +5,7 @@
   <f:repeatable var="link" items="${attrs.links}" name="links" add="${%Add Link}">
     <table class="sidebar_link">
       <f:entry title="${%Link URL}" help="/plugin/sidebar-link/help-url.html">
-        <f:textbox name="urlName" value="${link.urlName}"/>
+        <f:textbox name="urlName" value="${link.urlName}" checkUrl="'${rootURL}/plugin/sidebar-link/checkUrl?value='+encodeURIComponent(this.value)"/>
       </f:entry>
       <f:entry title="${%Link Text}">
         <f:textbox name="displayName" value="${link.displayName}"/>

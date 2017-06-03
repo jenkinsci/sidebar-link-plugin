@@ -27,14 +27,19 @@ import hudson.FilePath;
 import hudson.Plugin;
 import hudson.model.Descriptor.FormException;
 import hudson.model.Hudson;
+import hudson.util.FormValidation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.NoExternalUse;
+import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
+import org.kohsuke.stapler.interceptor.RequirePOST;
 
 /**
  * Add links in the main page sidepanel.
@@ -74,6 +79,8 @@ public class SidebarLinkPlugin extends Plugin {
      * Receive file upload from startUpload.jelly.
      * File is placed in $JENKINS_HOME/userContent directory.
      */
+    @RequirePOST
+    @Restricted(NoExternalUse.class)
     public void doUpload(StaplerRequest req, StaplerResponse rsp)
             throws IOException, ServletException, InterruptedException {
         Hudson hudson = Hudson.getInstance();
@@ -98,5 +105,12 @@ public class SidebarLinkPlugin extends Plugin {
         rsp.getWriter().println(
                 (error != null ? error : Messages.Uploaded("<tt>/" + filename + "</tt>"))
                 + " <a href=\"javascript:history.back()\">" + Messages.Back() + "</a>");
+    }
+    
+    // TODO: Does not work with post-only on the current core baseline, but it does
+    // not leak any sensiive information. OTOH it may expose a list of allowed protocols. Do we care?
+    @Restricted(NoExternalUse.class)
+    public FormValidation doCheckUrl(@QueryParameter String value) {
+        return LinkProtection.verifyUrl(value);
     }
 }

@@ -36,5 +36,5 @@ public class ProjectLinksTest {
         rule.submit(form);
         Assert.assertNotNull("Method geJobActions should not return null.", links.getJobActions(project));
     }
-    
+
 }

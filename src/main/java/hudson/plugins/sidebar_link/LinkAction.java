@@ -24,6 +24,7 @@
 package hudson.plugins.sidebar_link;
 
 import hudson.model.Action;
+import hudson.util.FormValidation;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
@@ -34,8 +35,14 @@ public class LinkAction implements Action {
     private String url, text, icon;
 
     @DataBoundConstructor
-    public LinkAction(String urlName, String displayName, String iconFileName) {
-	this.url = urlName;
+    public LinkAction(String urlName, String displayName, String iconFileName) throws IllegalArgumentException {
+        // Validate URL before proceeding
+        FormValidation validationResult = LinkProtection.verifyUrl(urlName);
+        if(validationResult.kind == FormValidation.Kind.ERROR) {
+            throw new IllegalArgumentException(validationResult);
+        }
+        
+        this.url = urlName;
 	this.text = displayName;
 	this.icon = iconFileName;
     }
