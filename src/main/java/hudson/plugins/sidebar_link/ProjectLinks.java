@@ -30,6 +30,7 @@ import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -44,7 +45,12 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
 
     @DataBoundConstructor
     public ProjectLinks(List<LinkAction> links) {
-        this.links = links;
+        if (links != null) {
+            this.links = links;
+        }
+        else{
+            links = new ArrayList<LinkAction>();
+        }
     }
 
     public List<LinkAction> getLinks() { return links; }
@@ -54,6 +60,13 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
         if(links == null)
             return new ArrayList<LinkAction>();
         return links;
+    }
+
+    private Object readResolve() {
+        if (links == null) {
+            links = new ArrayList<LinkAction>();
+        }
+        return this;
     }
 
     @Extension
