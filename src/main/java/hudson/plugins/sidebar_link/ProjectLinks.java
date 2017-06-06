@@ -49,7 +49,7 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
             this.links = links;
         }
         else{
-            links = new ArrayList<LinkAction>();
+            this.links = new ArrayList<LinkAction>();
         }
     }
 
