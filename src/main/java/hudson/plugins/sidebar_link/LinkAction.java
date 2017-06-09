@@ -25,14 +25,29 @@ package hudson.plugins.sidebar_link;
 
 import hudson.model.Action;
 import hudson.util.FormValidation;
+import java.util.List;
+import javax.annotation.CheckForNull;
+import org.apache.commons.lang.StringUtils;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.NoExternalUse;
+import org.kohsuke.stapler.Ancestor;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.Stapler;
+import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * Simple link.
  * @author Alan Harder
  */
 public class LinkAction implements Action {
-    private String url, text, icon;
+    private final String url, text, icon;
+    
+    /**
+     * Caches the fact that the URL is safe or not.
+     * It assumes that {@link LinkProtection#ALLOWED_URI_SCHEMES} is assigned once and only once on the startup.
+     */
+    @CheckForNull
+    private transient Boolean isSafe = null;
 
     @DataBoundConstructor
     public LinkAction(String urlName, String displayName, String iconFileName) throws IllegalArgumentException {
@@ -47,7 +62,40 @@ public class LinkAction implements Action {
 	this.icon = iconFileName;
     }
 
-    public String getUrlName() { return url; }
+    public String getUrlName() {
+        if (isSafe == null) { // Refresh cache
+            FormValidation validationResult = LinkProtection.verifyUrl(url);
+            isSafe = validationResult.kind != FormValidation.Kind.ERROR;
+        }
+        return isSafe ? url : "unsafeLink-" + url.hashCode();
+    }
+    
     public String getDisplayName() { return text; }
     public String getIconFileName() { return icon; }
+    
+    @Restricted(NoExternalUse.class)
+    public String getUnprotectedLink() {
+        return url;
+    }
+    
+    @Restricted(NoExternalUse.class)
+    public Object getAncestor() {
+        StaplerRequest currentRequest = Stapler.getCurrentRequest();
+        if (currentRequest != null) {
+            List<Ancestor> ancestors = currentRequest.getAncestors();
+            int listSize = ancestors != null? ancestors.size() : 0;
+            if (ancestors == null || listSize < 2) {
+                return null;
+            }
+            // One level above the LinkAction
+            return ancestors.get(listSize - 2).getObject();
+        }
+        
+        return null;
+    }
+    
+    @Restricted(NoExternalUse.class)
+    public String getAllowedSchemes() {
+        return LinkProtection.getAllowedUriSchemes();
+    }
 }

@@ -71,6 +71,11 @@ class LinkProtection {
         }
     }
     
+    @Nonnull
+    public static String getAllowedUriSchemes() {
+        return StringUtils.join(ALLOWED_URI_SCHEMES, ',');
+    }
+    
     @CheckReturnValue
     @Nonnull
     public static FormValidation verifyUrl(@CheckForNull String urlString) {
@@ -93,7 +98,7 @@ class LinkProtection {
             if (!ALLOWED_URI_SCHEMES.contains(toCheck)) {
                 StringBuilder bldr = new StringBuilder("URI scheme \"");
                 bldr.append(toCheck).append("\" is not allowed. Allowed schemes: ");
-                bldr.append(StringUtils.join(ALLOWED_URI_SCHEMES, ','));
+                bldr.append(getAllowedUriSchemes());
                 return FormValidation.error(bldr.toString());
             }
         }
