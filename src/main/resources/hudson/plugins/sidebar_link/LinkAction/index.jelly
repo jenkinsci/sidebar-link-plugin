@@ -1,9 +1,8 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:sl="/hudson/plugins/sidebar_link">
   
- 
- <l:layout permission="${object.READ}" xmlns:local="local" norefresh="true">
-   <j:set var="object" value="${it.ancestor}"/> 
+  <j:set var="object" value="${it.ancestor}"/>  
+  <l:layout permission="${object.READ}" xmlns:local="local" norefresh="true">
     <st:include it="${object}" page="sidepanel.jelly" optional="true"/>
     <l:main-panel>
         <h1>${%Sidebar Link is disabled}</h1>
