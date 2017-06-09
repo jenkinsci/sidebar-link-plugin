@@ -1,8 +1,9 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:sl="/hudson/plugins/sidebar_link">
   
-  <j:set var="object" value="${it.ancestor}"/>  
-  <l:layout permission="${object.READ}" xmlns:local="local" norefresh="true">
+  <j:set var="object" value="${it.ancestor}"/>
+  <!-- READ permission is checked on the ancestor level-->  
+  <l:layout xmlns:local="local" norefresh="true">
     <st:include it="${object}" page="sidepanel.jelly" optional="true"/>
     <l:main-panel>
         <h1>${%Sidebar Link is disabled}</h1>
@@ -11,7 +12,7 @@
           ${%Whitelisted schemes:} <i>${it.allowedSchemes}</i>.
         </p>
         <p>
-          ${%Contact your Jenkins administrator if you need another sheme to be whitelisted in the Sidebar Link plugin.}
+          ${%Contact your Jenkins administrator if you need another scheme to be whitelisted in the Sidebar Link plugin.}
         </p>
     </l:main-panel>
   </l:layout>

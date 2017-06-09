@@ -107,8 +107,6 @@ public class SidebarLinkPlugin extends Plugin {
                 + " <a href=\"javascript:history.back()\">" + Messages.Back() + "</a>");
     }
     
-    // TODO: Does not work with post-only on the current core baseline, but it does
-    // not leak any sensiive information. OTOH it may expose a list of allowed protocols. Do we care?
     @Restricted(NoExternalUse.class)
     public FormValidation doCheckUrl(@QueryParameter String value) {
         return LinkProtection.verifyUrl(value);

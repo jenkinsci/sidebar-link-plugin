@@ -44,13 +44,11 @@ import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
 
 /**
- * Contains shared utiility logic for the plugin.
+ * Contains shared utility logic for the plugin.
  * @author Oleg Nenashev
  */
 @Restricted(NoExternalUse.class)
 class LinkProtection {
-    
-    //TODO, should be actually in the core, no? IMHO by fixing it here we expose the "hole"
     
     /**
      * Defines a list of URL schemes, which are considered to be safe.
