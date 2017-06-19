@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
+
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
 import org.kohsuke.stapler.StaplerRequest;
@@ -48,18 +50,18 @@ public class SidebarLinkPlugin extends Plugin {
 
     @Override public void start() throws Exception {
 	load();
-	Hudson.getInstance().getActions().addAll(links);
+        Jenkins.getInstance().getActions().addAll(links);
     }
 
     public List<LinkAction> getLinks() { return links; }
 
     @Override public void configure(StaplerRequest req, JSONObject formData)
 	    throws IOException, ServletException, FormException {
-	Hudson.getInstance().getActions().removeAll(links);
+        Jenkins.getInstance().getActions().removeAll(links);
 	links.clear();
 	links.addAll(req.bindJSONToList(LinkAction.class, formData.get("links")));
 	save();
-	Hudson.getInstance().getActions().addAll(links);
+        Jenkins.getInstance().getActions().addAll(links);
     }
 
     private Object readResolve() {
@@ -76,8 +78,8 @@ public class SidebarLinkPlugin extends Plugin {
      */
     public void doUpload(StaplerRequest req, StaplerResponse rsp)
             throws IOException, ServletException, InterruptedException {
-        Hudson hudson = Hudson.getInstance();
-        hudson.checkPermission(Hudson.ADMINISTER);
+        Jenkins jenkins = Jenkins.getInstance();
+        jenkins.checkPermission(Hudson.ADMINISTER);
         FileItem file = req.getFileItem("linkimage.file");
         String error = null, filename = null;
         if (file == null || file.getName().isEmpty())
@@ -86,7 +88,7 @@ public class SidebarLinkPlugin extends Plugin {
             filename = "userContent/"
                     // Sanitize given filename:
                     + file.getName().replaceFirst(".*/", "").replaceAll("[^\\w.,;:()#@!=+-]", "_");
-            FilePath imageFile = hudson.getRootPath().child(filename);
+            FilePath imageFile = jenkins.getRootPath().child(filename);
             if (imageFile.exists())
                 error = Messages.DupName();
             else {
