@@ -27,18 +27,23 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import hudson.model.Hudson;
 import net.sf.json.JSONObject;
+import org.junit.Rule;
 import org.jvnet.hudson.test.HudsonTestCase;
+import org.jvnet.hudson.test.JenkinsRule;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
+import static org.junit.Assert.*;
 
 /**
  * Test interaction of sidebar-link plugin with Jenkins core.
  * @author Alan Harder
  */
-public class SidebarLinkTest extends HudsonTestCase {
+public class SidebarLinkTest {
+
+    @Rule public JenkinsRule j = new JenkinsRule();
 
     public void testPlugin() throws Exception {
-        WebClient wc = new WebClient();
+        JenkinsRule.WebClient wc = j.createWebClient();
 
         // Configure plugin
         // (don't know how to use htmlunit with f:repeatable, so calling configure directly)
@@ -46,12 +51,12 @@ public class SidebarLinkTest extends HudsonTestCase {
         //..
         //submit(form);
 
-        Hudson.getInstance().getActions().add(new SidebarLinkTestAction("SidebarLinkTest"));
+        j.jenkins.getActions().add(new SidebarLinkTestAction("SidebarLinkTest"));
         // This calls action class below to call configure() (needs to be in a Stapler context)
         wc.goTo("SidebarLinkTest");
 
         // Verify link appears on main page
-        HtmlAnchor link = wc.goTo("").getFirstAnchorByText("Test Link");
+        HtmlAnchor link = wc.goTo("").getAnchorByText("Test Link");
         assertNotNull("link missing on main page", link);
         assertEquals("main page href", "http://test.com/test", link.getHrefAttribute());
 
@@ -59,8 +64,8 @@ public class SidebarLinkTest extends HudsonTestCase {
         HtmlForm form = wc.goTo("newView").getFormByName("createItem");
         form.getInputByName("name").setValueAttribute("test-view");
         form.getInputByValue("hudson.model.ListView").setChecked(true);
-        submit(form);
-        link = wc.goTo("view/test-view/").getFirstAnchorByText("Test Link");
+        j.submit(form);
+        link = wc.goTo("view/test-view/").getAnchorByText("Test Link");
         assertNotNull("link missing on view page", link);
         assertEquals("view page href", "http://test.com/test", link.getHrefAttribute());
     }
@@ -71,7 +76,7 @@ public class SidebarLinkTest extends HudsonTestCase {
             JSONObject formData = new JSONObject();
             formData.put("links", JSONObject.fromObject(
                 new LinkAction("http://test.com/test", "Test Link", "test.gif")));
-            Hudson.getInstance().getPlugin(SidebarLinkPlugin.class).configure(req, formData);
+            j.jenkins.getPlugin(SidebarLinkPlugin.class).configure(req, formData);
             rsp.setContentType("text/html");
             rsp.getOutputStream().close();
         }

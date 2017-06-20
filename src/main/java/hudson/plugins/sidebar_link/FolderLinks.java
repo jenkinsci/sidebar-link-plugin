@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2011, Alan Harder
+ * Copyright (c) 2014, Daniel Beck
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,51 +36,41 @@ import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
+import com.cloudbees.hudson.plugins.folder.Folder;
+import com.cloudbees.hudson.plugins.folder.FolderProperty;
+import com.cloudbees.hudson.plugins.folder.FolderPropertyDescriptor;
+import com.cloudbees.hudson.plugins.folder.TransientFolderActionFactory;
+
 /**
- * Add links in a job page sidepanel.
- * @author Alan Harder
+ * Add links in a folder page sidepanel.
+ * @author Daniel Beck
  */
-public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
+public class FolderLinks extends FolderProperty<Folder> {
     private List<LinkAction> links = new ArrayList<LinkAction>();
 
     @DataBoundConstructor
-    public ProjectLinks(List<LinkAction> links) {
-        if (links != null) {
-            this.links = links;
-        }
-        else{
-            this.links = new ArrayList<LinkAction>();
-        }
+    public FolderLinks(List<LinkAction> links) {
+        this.links = links;
     }
 
     public List<LinkAction> getLinks() { return links; }
 
-    @Override
-    public Collection<? extends Action> getJobActions(AbstractProject<?,?> job) {
-        if(links == null)
-            return new ArrayList<LinkAction>();
-        return links;
-    }
-
-    private Object readResolve() {
-        if (links == null) {
-            links = new ArrayList<LinkAction>();
-        }
-        return this;
-    }
-
-    @Extension
-    public static class DescriptorImpl extends JobPropertyDescriptor {
+    @Extension(optional = true)
+    public static class DescriptorImpl extends FolderPropertyDescriptor {
         @Override
         public String getDisplayName() {
             return "Sidebar Links";
         }
+    }
 
-        @Override
-        public ProjectLinks newInstance(StaplerRequest req, JSONObject formData) throws FormException {
-            return formData.has("sidebar-links")
-                    ? req.bindJSON(ProjectLinks.class, formData.getJSONObject("sidebar-links"))
-                    : null;
+    @Extension(optional = true)
+    public static class TransientFolderActionFactoryImpl extends TransientFolderActionFactory {
+        public Collection<LinkAction> createFor(Folder target) {
+            FolderLinks fl = target.getProperties().get(FolderLinks.class);
+            if (fl == null) {
+                return Collections.emptyList();
+            }
+            return Collections.unmodifiableList(fl.getLinks());
         }
     }
 }
