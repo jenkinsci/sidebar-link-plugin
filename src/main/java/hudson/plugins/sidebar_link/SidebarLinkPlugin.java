@@ -50,18 +50,18 @@ public class SidebarLinkPlugin extends Plugin {
 
     @Override public void start() throws Exception {
 	load();
-        Jenkins.getInstance().getActions().addAll(links);
+        Jenkins.getActiveInstance().getActions().addAll(links);
     }
 
     public List<LinkAction> getLinks() { return links; }
 
     @Override public void configure(StaplerRequest req, JSONObject formData)
 	    throws IOException, ServletException, FormException {
-        Jenkins.getInstance().getActions().removeAll(links);
+        Jenkins.getActiveInstance().getActions().removeAll(links);
 	links.clear();
 	links.addAll(req.bindJSONToList(LinkAction.class, formData.get("links")));
 	save();
-        Jenkins.getInstance().getActions().addAll(links);
+        Jenkins.getActiveInstance().getActions().addAll(links);
     }
 
     private Object readResolve() {
@@ -78,7 +78,7 @@ public class SidebarLinkPlugin extends Plugin {
      */
     public void doUpload(StaplerRequest req, StaplerResponse rsp)
             throws IOException, ServletException, InterruptedException {
-        Jenkins jenkins = Jenkins.getInstance();
+        Jenkins jenkins = Jenkins.getActiveInstance();
         jenkins.checkPermission(Hudson.ADMINISTER);
         FileItem file = req.getFileItem("linkimage.file");
         String error = null, filename = null;
