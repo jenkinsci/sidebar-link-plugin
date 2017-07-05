@@ -10,7 +10,7 @@
     <artifactId>sidebar-link</artifactId>
     <packaging>hpi</packaging>
     <name>Sidebar Link</name>
-    <version>1.9</version>
+    <version>1.10-SNAPSHOT</version>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin</url>
 
     <dependencies>
@@ -39,7 +39,7 @@
       <connection>scm:git:git://github.com/jenkinsci/sidebar-link-plugin.git</connection>
       <developerConnection>scm:git:git@github.com:jenkinsci/sidebar-link-plugin.git</developerConnection>
       <url>https://github.com/jenkinsci/sidebar-link-plugin</url>
-      <tag>sidebar-link-1.9</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <repositories>
