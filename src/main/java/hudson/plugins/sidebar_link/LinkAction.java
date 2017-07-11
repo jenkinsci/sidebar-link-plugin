@@ -74,7 +74,7 @@ public class LinkAction implements Action {
     public String getIconFileName() { return icon; }
     
     @Restricted(NoExternalUse.class)
-    public String getUnprotectedLink() {
+    public String getUnprotectedUrlName() {
         return url;
     }
     
