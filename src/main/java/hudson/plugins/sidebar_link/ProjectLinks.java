@@ -24,14 +24,14 @@
 package hudson.plugins.sidebar_link;
 
 import hudson.Extension;
-import hudson.model.AbstractProject;
-import hudson.model.Action;
-import hudson.model.JobProperty;
-import hudson.model.JobPropertyDescriptor;
+import hudson.model.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import jenkins.model.TransientActionFactory;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
@@ -40,7 +40,7 @@ import org.kohsuke.stapler.StaplerRequest;
  * Add links in a job page sidepanel.
  * @author Alan Harder
  */
-public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
+public class ProjectLinks extends JobProperty<Job<?,?>> {
     private List<LinkAction> links = new ArrayList<LinkAction>();
 
     @DataBoundConstructor
@@ -56,10 +56,8 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
     public List<LinkAction> getLinks() { return links; }
 
     @Override
-    public Collection<? extends Action> getJobActions(AbstractProject<?,?> job) {
-        if(links == null)
-            return new ArrayList<LinkAction>();
-        return links;
+    public Collection<? extends Action> getJobActions(Job<?,?> job) {
+        return Collections.EMPTY_SET;
     }
 
     private Object readResolve() {
@@ -81,6 +79,22 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
             return formData.has("sidebar-links")
                     ? req.bindJSON(ProjectLinks.class, formData.getJSONObject("sidebar-links"))
                     : null;
+        }
+    }
+
+    @Extension(optional = true)
+    public static class TransientActionFactoryImpl extends TransientActionFactory<Job> {
+        @Override
+        public Class<Job> type() {
+            return Job.class;
+        }
+
+        public Collection<LinkAction> createFor(Job job) {
+            ProjectLinks links = (ProjectLinks) job.getProperty(ProjectLinks.class);
+            if (links == null) {
+                return Collections.emptyList();
+            }
+            return Collections.unmodifiableList(links.getLinks());
         }
     }
 }
