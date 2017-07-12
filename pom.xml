@@ -13,10 +13,6 @@
     <version>1.9.2-SNAPSHOT</version>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin</url>
 
-    <properties>
-        <jenkins.version>2.7.1</jenkins.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
@@ -33,9 +29,16 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-job</artifactId>
-            <version>2.11</version>
+            <version>2.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.main</groupId>
+            <artifactId>jenkins-war</artifactId>
+            <version>1.642.3</version>
+            <type>war</type>
+        </dependency>
+
     </dependencies>
 
     <developers>
