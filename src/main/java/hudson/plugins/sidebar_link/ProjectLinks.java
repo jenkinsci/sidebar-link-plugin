@@ -55,6 +55,12 @@ public class ProjectLinks extends JobProperty<Job<?,?>> {
 
     public List<LinkAction> getLinks() { return links; }
 
+    public Collection<? extends Action> getJobActions(AbstractProject<?,?> job) {
+        if(links == null)
+            return new ArrayList<LinkAction>();
+        return links;
+    }
+
     @Override
     public Collection<? extends Action> getJobActions(Job<?,?> job) {
         return Collections.EMPTY_SET;
