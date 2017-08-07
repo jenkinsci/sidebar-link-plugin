@@ -24,8 +24,11 @@
 package hudson.plugins.sidebar_link;
 
 import hudson.Extension;
-import hudson.model.*;
-
+import hudson.model.AbstractProject;
+import hudson.model.Action;
+import hudson.model.Job;
+import hudson.model.JobProperty;
+import hudson.model.JobPropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,6 +36,8 @@ import java.util.List;
 
 import jenkins.model.TransientActionFactory;
 import net.sf.json.JSONObject;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.NoExternalUse;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
@@ -63,6 +68,9 @@ public class ProjectLinks extends JobProperty<Job<?,?>> {
 
     @Override
     public Collection<? extends Action> getJobActions(Job<?,?> job) {
+        if (job instanceof AbstractProject) {
+            return getJobActions((AbstractProject) job);
+        }
         return Collections.EMPTY_SET;
     }
 
@@ -88,6 +96,7 @@ public class ProjectLinks extends JobProperty<Job<?,?>> {
         }
     }
 
+    @Restricted(NoExternalUse.class)
     @Extension(optional = true)
     public static class TransientActionFactoryImpl extends TransientActionFactory<Job> {
         @Override
@@ -96,6 +105,9 @@ public class ProjectLinks extends JobProperty<Job<?,?>> {
         }
 
         public Collection<LinkAction> createFor(Job job) {
+            if (job instanceof AbstractProject) {
+                return Collections.EMPTY_SET;
+            }
             ProjectLinks links = (ProjectLinks) job.getProperty(ProjectLinks.class);
             if (links == null) {
                 return Collections.emptyList();
