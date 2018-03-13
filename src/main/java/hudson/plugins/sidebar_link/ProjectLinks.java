@@ -24,23 +24,27 @@
 package hudson.plugins.sidebar_link;
 
 import hudson.Extension;
-import hudson.model.AbstractProject;
 import hudson.model.Action;
+import hudson.model.Job;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
+import jenkins.model.TransientActionFactory;
+import net.sf.json.JSONObject;
+import org.jenkinsci.Symbol;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.StaplerRequest;
+
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import net.sf.json.JSONObject;
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * Add links in a job page sidepanel.
  * @author Alan Harder
  */
-public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
+public class ProjectLinks extends JobProperty<Job<?,?>> {
     private List<LinkAction> links = new ArrayList<LinkAction>();
 
     @DataBoundConstructor
@@ -56,20 +60,12 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
     public List<LinkAction> getLinks() { return links; }
 
     @Override
-    public Collection<? extends Action> getJobActions(AbstractProject<?,?> job) {
-        if(links == null)
-            return new ArrayList<LinkAction>();
-        return links;
-    }
-
-    private Object readResolve() {
-        if (links == null) {
-            links = new ArrayList<LinkAction>();
-        }
-        return this;
+    public Collection<? extends Action> getJobActions(Job<?,?> job) {
+        return Collections.emptyList();
     }
 
     @Extension
+    @Symbol("sidebarLinks")
     public static class DescriptorImpl extends JobPropertyDescriptor {
         @Override
         public String getDisplayName() {
@@ -81,6 +77,45 @@ public class ProjectLinks extends JobProperty<AbstractProject<?,?>> {
             return formData.has("sidebar-links")
                     ? req.bindJSON(ProjectLinks.class, formData.getJSONObject("sidebar-links"))
                     : null;
+        }
+
+        @Override
+        public boolean isApplicable(Class<? extends Job> jobType) {
+            return true;
+        }
+    }
+
+
+
+    /**
+     * The action factory responsible for adding the {@link LinkAction}.
+     *
+     * @since 1.3.0
+     */
+    @SuppressWarnings("rawtypes")
+    @Extension
+    public static class TransientActionFactoryImpl extends TransientActionFactory<Job> {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Class<Job> type() {
+            return Job.class;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Nonnull
+        @Override
+        public Collection<? extends Action> createFor(@Nonnull Job target) {
+            JobProperty sideBarLinksProperty = target.getProperty(ProjectLinks.class);
+            if(sideBarLinksProperty != null) {
+                return ProjectLinks.class.cast(sideBarLinksProperty).getLinks();
+            } else {
+                return Collections.emptyList();
+            }
         }
     }
 }
