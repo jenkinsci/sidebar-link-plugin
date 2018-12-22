@@ -13,12 +13,27 @@
     <version>1.9.2-SNAPSHOT</version>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin</url>
 
+    <properties>
+        <jenkins.version>1.642.3</jenkins.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>cloudbees-folder</artifactId>
-            <version>4.0</version>
+            <version>5.0</version>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>structs</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkinsci.plugins</groupId>
+            <artifactId>pipeline-model-definition</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci</groupId>
