@@ -42,25 +42,27 @@ import java.util.List;
 
 /**
  * Add links in a job page sidepanel.
+ *
  * @author Alan Harder
  */
-public class ProjectLinks extends JobProperty<Job<?,?>> {
+public class ProjectLinks extends JobProperty<Job<?, ?>> {
     private List<LinkAction> links = new ArrayList<LinkAction>();
 
     @DataBoundConstructor
     public ProjectLinks(List<LinkAction> links) {
         if (links != null) {
             this.links = links;
-        }
-        else{
+        } else {
             this.links = new ArrayList<LinkAction>();
         }
     }
 
-    public List<LinkAction> getLinks() { return links; }
+    public List<LinkAction> getLinks() {
+        return links;
+    }
 
     @Override
-    public Collection<? extends Action> getJobActions(Job<?,?> job) {
+    public Collection<? extends Action> getJobActions(Job<?, ?> job) {
         return Collections.emptyList();
     }
 
@@ -84,7 +86,6 @@ public class ProjectLinks extends JobProperty<Job<?,?>> {
             return true;
         }
     }
-
 
 
     /**
@@ -111,7 +112,7 @@ public class ProjectLinks extends JobProperty<Job<?,?>> {
         @Override
         public Collection<? extends Action> createFor(@Nonnull Job target) {
             JobProperty sideBarLinksProperty = target.getProperty(ProjectLinks.class);
-            if(sideBarLinksProperty != null) {
+            if (sideBarLinksProperty != null) {
                 return ProjectLinks.class.cast(sideBarLinksProperty).getLinks();
             } else {
                 return Collections.emptyList();

@@ -40,7 +40,8 @@ import static org.junit.Assert.*;
  */
 public class SidebarLinkTest {
 
-    @Rule public JenkinsRule j = new JenkinsRule();
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
     public void testPlugin() throws Exception {
         JenkinsRule.WebClient wc = j.createWebClient();
@@ -71,11 +72,14 @@ public class SidebarLinkTest {
     }
 
     public class SidebarLinkTestAction extends LinkAction {
-        public SidebarLinkTestAction(String name) { super(name, "test", null); }
+        public SidebarLinkTestAction(String name) {
+            super(name, "test", null);
+        }
+
         public void doDynamic(StaplerRequest req, StaplerResponse rsp) throws Exception {
             JSONObject formData = new JSONObject();
             formData.put("links", JSONObject.fromObject(
-                new LinkAction("http://test.com/test", "Test Link", "test.gif")));
+                    new LinkAction("http://test.com/test", "Test Link", "test.gif")));
             j.jenkins.getPlugin(SidebarLinkPlugin.class).configure(req, formData);
             rsp.setContentType("text/html");
             rsp.getOutputStream().close();
