@@ -43,6 +43,7 @@ import com.cloudbees.hudson.plugins.folder.TransientFolderActionFactory;
 
 /**
  * Add links in a folder page sidepanel.
+ *
  * @author Daniel Beck
  */
 public class FolderLinks extends FolderProperty<Folder> {
@@ -53,7 +54,9 @@ public class FolderLinks extends FolderProperty<Folder> {
         this.links = links;
     }
 
-    public List<LinkAction> getLinks() { return links; }
+    public List<LinkAction> getLinks() {
+        return links;
+    }
 
     @Extension(optional = true)
     public static class DescriptorImpl extends FolderPropertyDescriptor {

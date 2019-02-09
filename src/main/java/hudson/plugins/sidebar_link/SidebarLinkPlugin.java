@@ -45,36 +45,43 @@ import org.kohsuke.stapler.interceptor.RequirePOST;
 
 /**
  * Add links in the main page sidepanel.
+ *
  * @author Alan Harder
  */
 public class SidebarLinkPlugin extends Plugin {
-    private List<LinkAction> links = new ArrayList<LinkAction>();
+
+    private List<LinkAction> links = new ArrayList<>();
 
     // From older versions
-    @Deprecated private transient String url, text, icon;
+    @Deprecated
+    private transient String url, text, icon;
 
-    @Override public void start() throws Exception {
-	load();
+    @Override
+    public void start() throws Exception {
+        load();
         Jenkins.getActiveInstance().getActions().addAll(links);
     }
 
-    public List<LinkAction> getLinks() { return links; }
+    public List<LinkAction> getLinks() {
+        return links;
+    }
 
-    @Override public void configure(StaplerRequest req, JSONObject formData)
-	    throws IOException, ServletException, FormException {
+    @Override
+    public void configure(StaplerRequest req, JSONObject formData)
+            throws IOException, ServletException, FormException {
         Jenkins.getActiveInstance().getActions().removeAll(links);
-	links.clear();
-	links.addAll(req.bindJSONToList(LinkAction.class, formData.get("links")));
-	save();
+        links.clear();
+        links.addAll(req.bindJSONToList(LinkAction.class, formData.get("links")));
+        save();
         Jenkins.getActiveInstance().getActions().addAll(links);
     }
 
     private Object readResolve() {
-	// Upgrade config from older version
-	if (url != null && url.length() > 0) {
-	    links.add(new LinkAction(url, text, icon));
-	}
-	return this;
+        // Upgrade config from older version
+        if (url != null && url.length() > 0) {
+            links.add(new LinkAction(url, text, icon));
+        }
+        return this;
     }
 
     /**
@@ -106,9 +113,9 @@ public class SidebarLinkPlugin extends Plugin {
         rsp.setContentType("text/html");
         rsp.getWriter().println(
                 (error != null ? error : Messages.Uploaded("<tt>/" + filename + "</tt>"))
-                + " <a href=\"javascript:history.back()\">" + Messages.Back() + "</a>");
+                        + " <a href=\"javascript:history.back()\">" + Messages.Back() + "</a>");
     }
-    
+
     @Restricted(NoExternalUse.class)
     public FormValidation doCheckUrl(@QueryParameter String value) {
         return LinkProtection.verifyUrl(value);

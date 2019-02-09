@@ -19,7 +19,9 @@ public class NodeLinks extends NodeProperty<Slave> {
         }
     }
 
-    public List<LinkAction> getLinks() { return links; }
+    public List<LinkAction> getLinks() {
+        return links;
+    }
 
     private Object readResolve() {
         if (links == null) {
