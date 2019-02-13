@@ -1,3 +1,5 @@
+[![Build Travis](https://img.shields.io/travis/jenkinsci/build-name-setter-plugin/master.svg)](https://travis-ci.org/jenkinsci/build-name-setter-plugin)
+
 # Sidebar Link Plug-in for Jenkins
 
 Add links in the sidebar of the Jenkins main page, view tabs and project pages.
