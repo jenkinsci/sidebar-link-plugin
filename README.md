@@ -1,4 +1,4 @@
-[![Build Travis](https://img.shields.io/travis/jenkinsci/build-name-setter-plugin/master.svg)](https://travis-ci.org/jenkinsci/build-name-setter-plugin)
+[![Build Travis](https://img.shields.io/travis/jenkinsci/sidebar-link-plugin/master.svg)](https://travis-ci.org/jenkinsci/sidebar-link-plugin)
 
 # Sidebar Link Plug-in for Jenkins
 
