@@ -95,7 +95,8 @@ public class SidebarLinkPlugin extends Plugin {
         Jenkins jenkins = Jenkins.getActiveInstance();
         jenkins.checkPermission(Hudson.ADMINISTER);
         FileItem file = req.getFileItem("linkimage.file");
-        String error = null, filename = null;
+        String error = null;
+        String filename = null;
         if (file == null || file.getName().isEmpty())
             error = Messages.NoFile();
         else {
