@@ -24,17 +24,11 @@
 package hudson.plugins.sidebar_link;
 
 import hudson.Extension;
-import hudson.model.AbstractProject;
-import hudson.model.Action;
-import hudson.model.JobProperty;
-import hudson.model.JobPropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.StaplerRequest;
 
 import com.cloudbees.hudson.plugins.folder.Folder;
 import com.cloudbees.hudson.plugins.folder.FolderProperty;

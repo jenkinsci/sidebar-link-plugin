@@ -92,7 +92,7 @@ public class LinkProtectionTest {
         assertThat("Expected the validation of link '" + "' to pass, but got " + validationResult,
                 validationResult.kind, not(equalTo(FormValidation.Kind.ERROR)));
 
-        LinkAction a = new LinkAction(url, "test link", null);
+        new LinkAction(url, "test link", null);
     }
 
     /**
@@ -129,7 +129,7 @@ public class LinkProtectionTest {
 
         // Try to instantinate LinkAction
         try {
-            LinkAction la = new LinkAction(url, "test URL", null);
+            new LinkAction(url, "test URL", null);
         } catch (IllegalArgumentException ex) {
             assertThat(ex.getCause(), instanceOf(FormValidation.class));
             FormValidation res = (FormValidation) ex.getCause();

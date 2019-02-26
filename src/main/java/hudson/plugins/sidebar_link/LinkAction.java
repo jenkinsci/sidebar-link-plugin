@@ -23,11 +23,11 @@
  */
 package hudson.plugins.sidebar_link;
 
+import java.util.List;
+
 import hudson.model.Action;
 import hudson.util.FormValidation;
-import java.util.List;
 import javax.annotation.CheckForNull;
-import org.apache.commons.lang.StringUtils;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
 import org.kohsuke.stapler.Ancestor;
