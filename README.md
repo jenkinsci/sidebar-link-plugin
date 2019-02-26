@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a407e4ad46904590bb9bb7bc1878f17b)](https://app.codacy.com/app/damianszczepanik/sidebar-link-plugin?utm_source=github.com&utm_medium=referral&utm_content=jenkinsci/sidebar-link-plugin&utm_campaign=Badge_Grade_Dashboard)
 [![Build Travis](https://img.shields.io/travis/jenkinsci/sidebar-link-plugin/master.svg)](https://travis-ci.org/jenkinsci/sidebar-link-plugin)
 
 # Sidebar Link Plug-in for Jenkins
