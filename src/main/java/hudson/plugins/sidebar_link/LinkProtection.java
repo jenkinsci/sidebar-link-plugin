@@ -43,13 +43,13 @@ import org.kohsuke.accmod.restrictions.NoExternalUse;
  */
 @Restricted(NoExternalUse.class)
 class LinkProtection {
-    
+
     /**
      * Defines a list of URL schemes, which are considered to be safe.
      * Default set comes from https://security.stackexchange.com/questions/148428/which-url-schemes-are-dangerous-xss-exploitable.
      */
     private static final Set<String> ALLOWED_URI_SCHEMES = new HashSet<String>();
-    
+
     static {
         // Cannot be instantinated
         String customSchemes = System.getProperty(LinkProtection.class.getName() + ".whitelistedSchemes");
@@ -58,23 +58,23 @@ class LinkProtection {
             ALLOWED_URI_SCHEMES.addAll(Arrays.asList(schemes));
         } else {
             ALLOWED_URI_SCHEMES.addAll(
-                Arrays.asList("http", "https", "ftp", "ftps", "mailto", "news", "irc", 
+                Arrays.asList("http", "https", "ftp", "ftps", "mailto", "news", "irc",
                 "gopher", "nntp", "feed", "telnet", "mms", "rtsp", "svn", "tel", "fax", "xmpp"));
         }
     }
-    
+
     @Nonnull
     public static String getAllowedUriSchemes() {
         return StringUtils.join(ALLOWED_URI_SCHEMES, ',');
     }
-    
+
     @CheckReturnValue
     @Nonnull
     public static FormValidation verifyUrl(@CheckForNull String urlString) {
         if (StringUtils.isBlank(urlString)) {
             return FormValidation.warning("The provided URL is blank or empty");
         }
-        
+
         // Copy of the code from Functions#getActionUrl()
         final URI uri;
         try {
@@ -82,7 +82,7 @@ class LinkProtection {
         } catch (URISyntaxException ex) {
             return FormValidation.error(ex, "The provided URL is malformed: " + urlString);
         }
-        
+
         // Let's check if the scheme is allowed
         String scheme = uri.getScheme();
         if (scheme != null) { // we do not check undefined schemes like relative links
@@ -94,7 +94,7 @@ class LinkProtection {
                 return FormValidation.error(bldr.toString());
             }
         }
-        
+
         if (uri.isAbsolute()) {
             return FormValidation.ok("This is a valid absolute URL. The destination may not exist");
         } else {

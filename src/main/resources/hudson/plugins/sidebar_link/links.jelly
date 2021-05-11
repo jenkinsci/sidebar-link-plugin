@@ -2,17 +2,16 @@
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
     <!-- l:header does not work here -->
     <style type="text/css">table.sidebar_link td { vertical-align:middle; }</style>
-    <f:repeatable var="link" items="${attrs.links}" name="links" add="${%Add Link}" header="${%Sidebar Link}">
+    <f:repeatable var="link" items="${instance.links}" name="links" add="${%Add Link}" header="${%Sidebar Link}">
         <table class="sidebar_link">
             <f:entry title="${%Link URL}" help="/plugin/sidebar-link/help-url.html">
-                <f:textbox name="urlName" value="${link.unprotectedUrlName}"
-                           checkUrl="'${rootURL}/plugin/sidebar-link/checkUrl?value='+encodeURIComponent(this.value)"/>
+                <f:textbox name="urlName" value="${link.unprotectedUrlName}" field="linkUrl"/>
             </f:entry>
             <f:entry title="${%Link Text}">
-                <f:textbox name="displayName" value="${link.displayName}"/>
+                <f:textbox name="displayName" value="${link.displayName}" field="linkText"/>
             </f:entry>
             <f:entry title="${%Link Icon}" help="/plugin/sidebar-link/help-icon.html">
-                <f:textbox name="iconFileName" value="${link.iconFileName}"/>
+                <f:textbox name="iconFileName" value="${link.iconFileName}" field="linkIcon"/>
             </f:entry>
             <f:entry>
                 <f:repeatableDeleteButton/>

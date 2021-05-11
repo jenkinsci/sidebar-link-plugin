@@ -23,17 +23,19 @@
  */
 package hudson.plugins.sidebar_link;
 
-import hudson.Extension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import com.cloudbees.hudson.plugins.folder.Folder;
 import com.cloudbees.hudson.plugins.folder.FolderProperty;
 import com.cloudbees.hudson.plugins.folder.FolderPropertyDescriptor;
 import com.cloudbees.hudson.plugins.folder.TransientFolderActionFactory;
+
+import hudson.Extension;
 
 /**
  * Add links in a folder page sidepanel.
