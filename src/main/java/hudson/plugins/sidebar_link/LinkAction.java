@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 
 import hudson.model.Action;
 import hudson.util.FormValidation;
+import io.jenkins.cli.shaded.org.apache.commons.lang.StringUtils;
+
 import javax.annotation.CheckForNull;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
@@ -62,7 +64,7 @@ public class LinkAction implements Action {
             throw new IllegalArgumentException(validationResult);
         }
 
-        if((iconFileName == null) || (iconFileName.equals(""))) {
+        if(StringUtils.isBlank(iconFileName)) {
             iconFileName = "static/efbf17e4/images/16x16/help.png";
         }
 
