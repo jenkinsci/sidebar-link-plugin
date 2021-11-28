@@ -1,8 +1,6 @@
 [![Build Status](https://ci.jenkins.io/job/Plugins/job/sidebar-link-plugin/job/master/badge/icon)](https://ci.jenkins.io/job/Plugins/job/sidebar-link-plugin/job/master/)
 [![Build Appveyor](https://ci.appveyor.com/api/projects/status/td957y8vrmb76ggt?svg=true)](https://ci.appveyor.com/project/damianszczepanik/sidebar-link-plugin)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c45db3b6680e4fc4ae114253be3dc2b3)](https://www.codacy.com/app/damianszczepanik/sidebar-link-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jenkinsci/sidebar-link-plugin&amp;utm_campaign=Badge_Grade)
-
 # Sidebar Link Plug-in for Jenkins
 
 Add links in the sidebar of the Jenkins main page, view tabs and project pages.
