@@ -45,15 +45,16 @@ import java.util.List;
  *
  * @author Alan Harder
  */
+@SuppressWarnings("rawtypes")
 public class ProjectLinks extends JobProperty<Job<?, ?>> {
-    private List<LinkAction> links = new ArrayList<LinkAction>();
+    private List<LinkAction> links = new ArrayList<>();
 
     @DataBoundConstructor
     public ProjectLinks(List<LinkAction> links) {
         if (links != null) {
             this.links = links;
         } else {
-            this.links = new ArrayList<LinkAction>();
+            this.links = new ArrayList<>();
         }
     }
 
@@ -93,7 +94,6 @@ public class ProjectLinks extends JobProperty<Job<?, ?>> {
      *
      * @since 1.3.0
      */
-    @SuppressWarnings("rawtypes")
     @Extension
     public static class TransientActionFactoryImpl extends TransientActionFactory<Job> {
 
@@ -111,9 +111,9 @@ public class ProjectLinks extends JobProperty<Job<?, ?>> {
         @Nonnull
         @Override
         public Collection<? extends Action> createFor(@Nonnull Job target) {
-            JobProperty sideBarLinksProperty = target.getProperty(ProjectLinks.class);
+            ProjectLinks sideBarLinksProperty = ((Job<?, ?>) target).getProperty(ProjectLinks.class);
             if (sideBarLinksProperty != null) {
-                return ProjectLinks.class.cast(sideBarLinksProperty).getLinks();
+                return sideBarLinksProperty.getLinks();
             } else {
                 return Collections.emptyList();
             }
