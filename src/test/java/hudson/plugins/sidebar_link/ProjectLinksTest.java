@@ -55,7 +55,7 @@ public class ProjectLinksTest {
     public void testProjectProperty() throws Exception {
         FreeStyleProject project = rule.jenkins.createProject(FreeStyleProject.class, "test" + rule.jenkins.getItems().size());
         project.addProperty(new ProjectLinks(Collections.singletonList(
-                new LinkAction("http://example.com", "Side Bar Example", "")
+                new LinkAction("http://example.com", "Side Bar Example", "", false, false)
         )));
         project.save();
         assertNotNull(project.getActions());

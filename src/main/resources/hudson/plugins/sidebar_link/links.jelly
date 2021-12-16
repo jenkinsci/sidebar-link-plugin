@@ -13,6 +13,14 @@
             <f:entry title="${%Link Icon}" help="/plugin/sidebar-link/help-icon.html">
                 <f:textbox name="iconFileName" value="${link.iconFileName}" field="linkIcon"/>
             </f:entry>
+            <f:advanced>
+                <f:entry title="${%Referer}" help="/plugin/sidebar-link/help-referer.html">
+                    <f:checkbox name="addReferer" checked="${link.addReferer}"/>
+                </f:entry>
+                <f:entry title="${%Referer Full Path}" help="/plugin/sidebar-link/help-referer-full-path.html">
+                    <f:checkbox name="refererFullPath" checked="${link.refererFullPath}"/>
+                </f:entry>
+            </f:advanced>
             <f:entry>
                 <f:repeatableDeleteButton/>
             </f:entry>

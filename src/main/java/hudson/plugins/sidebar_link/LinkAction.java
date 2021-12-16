@@ -26,7 +26,9 @@ package hudson.plugins.sidebar_link;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
+import java.net.URI;
 
+import hudson.Functions;
 import hudson.model.Action;
 import hudson.util.FormValidation;
 import io.jenkins.cli.shaded.org.apache.commons.lang.StringUtils;
@@ -42,11 +44,12 @@ import org.kohsuke.stapler.StaplerRequest;
 /**
  * Simple link.
  *
- * @author Alan Harder
+ * @author Alan Harder, Simon Michalke
  */
 public class LinkAction implements Action {
 
     private final String url, text, icon;
+    private final boolean addReferer, refererFullPath;
 
     /**
      * Caches the fact that the URL is safe or not.
@@ -57,7 +60,7 @@ public class LinkAction implements Action {
     private static final Logger LOGGER = Logger.getLogger(LinkAction.class.getName());
 
     @DataBoundConstructor
-    public LinkAction(String urlName, String displayName, String iconFileName) throws IllegalArgumentException {
+    public LinkAction(String urlName, String displayName, String iconFileName, Boolean addReferer, Boolean refererFullPath) throws IllegalArgumentException {
         // Validate URL before proceeding
         FormValidation validationResult = LinkProtection.verifyUrl(urlName);
         if (validationResult.kind == FormValidation.Kind.ERROR) {
@@ -72,14 +75,27 @@ public class LinkAction implements Action {
         this.text = displayName;
         this.icon = iconFileName;
         LOGGER.info(String.format("Created link '%s': url='%s', icon='%s'", this.text, this.url, this.icon));
+        this.addReferer = addReferer == null ? false : addReferer;
+        this.refererFullPath = refererFullPath == null ? false : refererFullPath;
     }
 
     public String getUrlName() {
+        String retUrl = url;
+        if (addReferer) {
+            String from = refererFullPath ?
+                Stapler.getCurrentRequest().getRequestURL().toString() :
+                Stapler.getCurrentRequest().getPathInfo();
+            if (retUrl.contains("?")) {
+                retUrl += "&from=" + from;
+            } else {
+                retUrl += "?from=" + from;
+            }
+        }
         if (isSafe == null) { // Refresh cache
-            FormValidation validationResult = LinkProtection.verifyUrl(url);
+            FormValidation validationResult = LinkProtection.verifyUrl(retUrl);
             isSafe = validationResult.kind != FormValidation.Kind.ERROR;
         }
-        return isSafe ? url : "unsafeLink-" + url.hashCode();
+        return isSafe ? retUrl : "unsafeLink-" + retUrl.hashCode();
     }
 
     public String getDisplayName() {
