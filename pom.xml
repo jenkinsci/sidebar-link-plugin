@@ -9,8 +9,8 @@
     <artifactId>sidebar-link</artifactId>
     <packaging>hpi</packaging>
     <name>Sidebar Link</name>
-    <version>2.00.1</version>
-    <url>https://plugins.jenkins.io/sidebar-link</url>
+    <version>2.00.0</version>
+    <url>https://github.com/jenkinsci/sidebar-link-plugin</url>
 
     <properties>
         <jenkins.version>2.263.4</jenkins.version>
