@@ -1,0 +1,7 @@
+unclassified:
+  sidebarGlobalLink:
+    links:
+    - test1:
+      displayName: "testlink"
+      iconFileName: ""
+      urlName: "www.none.com"

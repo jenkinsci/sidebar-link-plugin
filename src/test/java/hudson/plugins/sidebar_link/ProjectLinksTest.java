@@ -4,6 +4,12 @@
  */
 package hudson.plugins.sidebar_link;
 
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.jvnet.hudson.test.JenkinsRule;
+
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.model.AbstractProject;
@@ -11,9 +17,11 @@ import hudson.model.FreeStyleProject;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
-import org.junit.Rule;
-import org.junit.Test;
-import org.jvnet.hudson.test.JenkinsRule;
+
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
+import hudson.model.FreeStyleProject;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,13 +34,13 @@ import static org.junit.Assert.assertNotNull;
  * @author Lucie Votypkova
  */
 public class ProjectLinksTest {
-    
+
     @Rule
     public JenkinsRule rule = new JenkinsRule();
-    
+
     @Test
     public void testGetJobActionsDoesNotReturnNull() throws Exception{
-        AbstractProject project = rule.jenkins.createProject(FreeStyleProject.class, "test_not_null");
+        FreeStyleProject project = rule.jenkins.createProject(FreeStyleProject.class, "test_not_null");
         ProjectLinks links = new ProjectLinks(null);
         assertNotNull("Method geJobActions should not return null.", links.getJobActions(project));
         //from gui
@@ -45,8 +53,7 @@ public class ProjectLinksTest {
 
     @Test
     public void testProjectProperty() throws Exception {
-        AbstractProject project = rule.jenkins.createProject(FreeStyleProject.class, "test" + rule.jenkins.getItems().size());
-        ProjectLinks links = new ProjectLinks(null);
+        FreeStyleProject project = rule.jenkins.createProject(FreeStyleProject.class, "test" + rule.jenkins.getItems().size());
         project.addProperty(new ProjectLinks(Collections.singletonList(
                 new LinkAction("http://example.com", "Side Bar Example", "")
         )));
@@ -56,7 +63,7 @@ public class ProjectLinksTest {
         assertNotNull(sideBarLinkAction);
         assertEquals("http://example.com", sideBarLinkAction.getUrlName());
         assertEquals("Side Bar Example", sideBarLinkAction.getDisplayName());
-        assertEquals("", sideBarLinkAction.getIconFileName());
+        assertEquals("static/efbf17e4/images/16x16/help.png", sideBarLinkAction.getIconFileName());
     }
 
     @Test
@@ -87,6 +94,6 @@ public class ProjectLinksTest {
         LinkAction link = projectLinks.getLinks().get(0);
         assertEquals("http://example.com", link.getUrlName());
         assertEquals("Side Bar Example", link.getDisplayName());
-        assertEquals("", link.getIconFileName());
+        assertEquals("static/efbf17e4/images/16x16/help.png", link.getIconFileName());
     }
 }

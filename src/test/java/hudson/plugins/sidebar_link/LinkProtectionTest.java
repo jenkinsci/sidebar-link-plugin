@@ -23,17 +23,19 @@
  */
 package hudson.plugins.sidebar_link;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import hudson.util.FormValidation;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.not;
+
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.StringContains;
-import static org.junit.Assert.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import hudson.util.FormValidation;
 
 /**
  * Tests for the {@link LinkProtection} engine.
@@ -87,9 +89,9 @@ public class LinkProtectionTest {
      * @throws AssertionError Assertion failure
      */
     public void assertLinkIsAccepted(@CheckForNull String url) throws AssertionError {
-        SidebarLinkPlugin plugin = rule.jenkins.getPlugin(SidebarLinkPlugin.class);
-        FormValidation validationResult = plugin.doCheckUrl(url);
-        assertThat("Expected the validation of link '" + "' to pass, but got " + validationResult,
+        SidebarLinkPlugin descriptor = rule.jenkins.getDescriptorByType(SidebarLinkPlugin.class);
+        FormValidation validationResult = descriptor.doCheckLinkUrl(url);
+        MatcherAssert.assertThat("Expected the validation of link '" + "' to pass, but got " + validationResult,
                 validationResult.kind, not(equalTo(FormValidation.Kind.ERROR)));
 
         new LinkAction(url, "test link", null);
@@ -118,12 +120,12 @@ public class LinkProtectionTest {
      */
     public void assertLinkIsNotAccepted(@CheckForNull String url, @CheckForNull String expectedMessagePart) throws AssertionError {
         // Try Form validation first
-        SidebarLinkPlugin plugin = rule.jenkins.getPlugin(SidebarLinkPlugin.class);
-        FormValidation validationResult = plugin.doCheckUrl(url);
-        assertThat("Expected the validation of link '" + url + "' to fail, but got " + validationResult,
+        SidebarLinkPlugin descriptor = rule.jenkins.getDescriptorByType(SidebarLinkPlugin.class);
+        FormValidation validationResult = descriptor.doCheckLinkUrl(url);
+        MatcherAssert.assertThat("Expected the validation of link '" + url + "' to fail, but got " + validationResult,
                 validationResult.kind, equalTo(FormValidation.Kind.ERROR));
         if (expectedMessagePart != null) {
-            assertThat("Expected another error message",
+            MatcherAssert.assertThat("Expected another error message",
                     validationResult.getMessage(), StringContains.containsString(expectedMessagePart));
         }
 
@@ -131,12 +133,12 @@ public class LinkProtectionTest {
         try {
             new LinkAction(url, "test URL", null);
         } catch (IllegalArgumentException ex) {
-            assertThat(ex.getCause(), instanceOf(FormValidation.class));
+            MatcherAssert.assertThat(ex.getCause(), instanceOf(FormValidation.class));
             FormValidation res = (FormValidation) ex.getCause();
-            assertThat("Expected the validation of link '" + url + "' to fail in the LinkAction, but got " + res,
+            MatcherAssert.assertThat("Expected the validation of link '" + url + "' to fail in the LinkAction, but got " + res,
                     res.kind, equalTo(FormValidation.Kind.ERROR));
             if (expectedMessagePart != null) {
-                assertThat("Expected another error message",
+                MatcherAssert.assertThat("Expected another error message",
                         res.getMessage(), StringContains.containsString(expectedMessagePart));
             }
             return;

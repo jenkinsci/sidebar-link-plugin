@@ -23,16 +23,22 @@
  */
 package hudson.plugins.sidebar_link;
 
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import hudson.model.Hudson;
-import net.sf.json.JSONObject;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.File;
+import java.io.FileWriter;
+
+import org.json.XML;
 import org.junit.Rule;
-import org.jvnet.hudson.test.HudsonTestCase;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
-import static org.junit.Assert.*;
+
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+
+import net.sf.json.JSONObject;
 
 /**
  * Test interaction of sidebar-link plugin with Jenkins core.
@@ -80,7 +86,12 @@ public class SidebarLinkTest {
             JSONObject formData = new JSONObject();
             formData.put("links", JSONObject.fromObject(
                     new LinkAction("http://test.com/test", "Test Link", "test.gif")));
-            j.jenkins.getPlugin(SidebarLinkPlugin.class).configure(req, formData);
+
+            File configFile = new File(j.jenkins.getRootDir(),"sidebarGlobalLink.xml");
+            FileWriter writer = new FileWriter(configFile);
+            writer.write(XML.toString(formData));
+            writer.close();
+
             rsp.setContentType("text/html");
             rsp.getOutputStream().close();
         }

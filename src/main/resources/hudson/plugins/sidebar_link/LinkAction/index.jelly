@@ -1,8 +1,8 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:sl="/hudson/plugins/sidebar_link">
-  
+
   <j:set var="object" value="${it.ancestor}"/>
-  <!-- READ permission is checked on the ancestor level-->  
+  <!-- READ permission is checked on the ancestor level-->
   <l:layout xmlns:local="local" norefresh="true">
     <st:include it="${object}" page="sidepanel.jelly" optional="true"/>
     <l:main-panel>

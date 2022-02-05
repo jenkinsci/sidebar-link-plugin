@@ -23,65 +23,68 @@
  */
 package hudson.plugins.sidebar_link;
 
-import hudson.FilePath;
-import hudson.Plugin;
-import hudson.model.Descriptor.FormException;
-import hudson.model.Hudson;
-import hudson.util.FormValidation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
 
-import jenkins.model.Jenkins;
-import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+import org.jenkinsci.Symbol;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
+import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.interceptor.RequirePOST;
+
+import hudson.Extension;
+import hudson.FilePath;
+import hudson.model.Hudson;
+import hudson.util.FormValidation;
+import jenkins.model.GlobalConfiguration;
+import jenkins.model.Jenkins;
 
 /**
  * Add links in the main page sidepanel.
  *
  * @author Alan Harder
  */
-public class SidebarLinkPlugin extends Plugin {
+
+@Extension
+@Symbol("sidebarGlobalLink")
+public class SidebarLinkPlugin extends GlobalConfiguration {
+    @SuppressWarnings("unused")
+    private static final Logger LOGGER = Logger.getLogger(SidebarLinkPlugin.class.getName());
 
     private List<LinkAction> links = new ArrayList<>();
 
-    // From older versions
-    @Deprecated
-    private transient String url, text, icon;
-
-    @Override
-    public void start() throws Exception {
+    public SidebarLinkPlugin() {
+        // When Jenkins is restarted, load any saved configuration from disk.
         load();
-        Jenkins.getActiveInstance().getActions().addAll(links);
+        Jenkins.get().getActions().addAll(links);
     }
 
+    /** @return the currently configured links, if any */
     public List<LinkAction> getLinks() {
         return links;
     }
 
-    @Override
-    public void configure(StaplerRequest req, JSONObject formData)
-            throws IOException, ServletException, FormException {
-        Jenkins.getActiveInstance().getActions().removeAll(links);
-        links.clear();
-        links.addAll(req.bindJSONToList(LinkAction.class, formData.get("links")));
+    /**
+     * Together with {@link #getLinks}, binds to entry in {@code config.jelly}.
+     * @param links the new value of this field
+     */
+    @DataBoundSetter
+    public void setLinks(List<LinkAction> links) {
+        /* remove all links of this type */
+        Jenkins.get().getActions().removeAll(this.links);
+        this.links.clear();
+        this.links.addAll(links);
+        Jenkins.get().getActions().addAll(this.links);
         save();
-        Jenkins.getActiveInstance().getActions().addAll(links);
-    }
-
-    private Object readResolve() {
-        // Upgrade config from older version
-        if (url != null && url.length() > 0) {
-            links.add(new LinkAction(url, text, icon));
-        }
-        return this;
     }
 
     /**
@@ -90,9 +93,9 @@ public class SidebarLinkPlugin extends Plugin {
      */
     @RequirePOST
     @Restricted(NoExternalUse.class)
-    public void doUpload(StaplerRequest req, StaplerResponse rsp)
+    public void doUploadLinkImage(StaplerRequest req, StaplerResponse rsp)
             throws IOException, ServletException, InterruptedException {
-        Jenkins jenkins = Jenkins.getActiveInstance();
+        Jenkins jenkins = Jenkins.get();
         jenkins.checkPermission(Hudson.ADMINISTER);
         FileItem file = req.getFileItem("linkimage.file");
         String error = null;
@@ -118,7 +121,31 @@ public class SidebarLinkPlugin extends Plugin {
     }
 
     @Restricted(NoExternalUse.class)
-    public FormValidation doCheckUrl(@QueryParameter String value) {
+    public FormValidation doCheckLinkUrl(@QueryParameter String value) {
         return LinkProtection.verifyUrl(value);
+    }
+
+    @Restricted(NoExternalUse.class)
+    public FormValidation doCheckLinkText(@QueryParameter String value) {
+        if (StringUtils.isBlank(value)) {
+            return FormValidation.error("The provided text is blank or empty");
+        }
+        return FormValidation.ok();
+    }
+
+    @Restricted(NoExternalUse.class)
+    public FormValidation doCheckLinkIcon(@QueryParameter String value) {
+        if (StringUtils.isBlank(value)) {
+            return FormValidation.warning("The provided icon is blank or empty. Defautl will used.");
+        }
+        FilePath imageFile = Jenkins.get().getRootPath().child(value);
+        try {
+            if (!imageFile.exists()) {
+                return FormValidation.error("Image does not exists:  " + imageFile);
+            }
+        } catch (Exception e) {
+            return FormValidation.error(e, "Problems using link icon:  " + value);
+        }
+        return FormValidation.ok();
     }
 }

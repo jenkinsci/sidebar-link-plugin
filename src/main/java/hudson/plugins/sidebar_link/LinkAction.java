@@ -24,9 +24,13 @@
 package hudson.plugins.sidebar_link;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Logger;
 
 import hudson.model.Action;
 import hudson.util.FormValidation;
+import io.jenkins.cli.shaded.org.apache.commons.lang.StringUtils;
+
 import javax.annotation.CheckForNull;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
@@ -50,6 +54,7 @@ public class LinkAction implements Action {
      */
     @CheckForNull
     private transient Boolean isSafe = null;
+    private static final Logger LOGGER = Logger.getLogger(LinkAction.class.getName());
 
     @DataBoundConstructor
     public LinkAction(String urlName, String displayName, String iconFileName) throws IllegalArgumentException {
@@ -59,9 +64,14 @@ public class LinkAction implements Action {
             throw new IllegalArgumentException(validationResult);
         }
 
+        if(StringUtils.isBlank(iconFileName)) {
+            iconFileName = "static/efbf17e4/images/16x16/help.png";
+        }
+
         this.url = urlName;
         this.text = displayName;
         this.icon = iconFileName;
+        LOGGER.info(String.format("Created link '%s': url='%s', icon='%s'", this.text, this.url, this.icon));
     }
 
     public String getUrlName() {
@@ -104,5 +114,26 @@ public class LinkAction implements Action {
     @Restricted(NoExternalUse.class)
     public String getAllowedSchemes() {
         return LinkProtection.getAllowedUriSchemes();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof LinkAction)) {
+            return false;
+        }
+
+        LinkAction c = (LinkAction) o;
+        return text.equals(c.text)
+                && icon.equals(c.icon)
+                && url.equals(c.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text, icon, url);
     }
 }
