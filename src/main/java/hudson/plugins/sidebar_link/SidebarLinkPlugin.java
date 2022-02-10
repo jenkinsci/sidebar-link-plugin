@@ -136,15 +136,15 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
     @Restricted(NoExternalUse.class)
     public FormValidation doCheckLinkIcon(@QueryParameter String value) {
         if (StringUtils.isBlank(value)) {
-            return FormValidation.warning("The provided icon is blank or empty. Defautl will used.");
+            return FormValidation.warning("The provided icon is blank or empty. Default will be used.");
         }
         FilePath imageFile = Jenkins.get().getRootPath().child(value);
         try {
             if (!imageFile.exists()) {
-                return FormValidation.error("Image does not exists:  " + imageFile);
+                return FormValidation.error("Image does not exist:  " + imageFile);
             }
         } catch (Exception e) {
-            return FormValidation.error(e, "Problems using link icon:  " + value);
+            return FormValidation.error(e, "Problem with link icon:  " + value);
         }
         return FormValidation.ok();
     }
