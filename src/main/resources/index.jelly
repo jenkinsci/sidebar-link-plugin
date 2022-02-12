@@ -1,5 +1,4 @@
 <?jelly escape-by-default='true'?>
 <div>
   Add links in the sidebar of the Jenkins main page, view tabs and project pages.<br/>
-  <b>Mind that this version is not compatible with older versions 1.*</b>
 </div>
