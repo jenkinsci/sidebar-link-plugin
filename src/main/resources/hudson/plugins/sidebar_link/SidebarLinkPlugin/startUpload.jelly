@@ -2,7 +2,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
   <l:layout title="${%Upload image file}" type="full-screen">
     <l:main-panel>
-      <form method="post" action="upload" enctype="multipart/form-data">
+      <form method="post" action="uploadLinkImage" enctype="multipart/form-data">
         <span class="setting-name">${%Upload an image file:}</span>
         <input type="file" name="linkimage.file" size="40"/>
         <st:nbsp/>
