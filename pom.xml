@@ -145,7 +145,12 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
+
+                <!-- Disable resource filtering because *.jelly files contain
+                     syntax like "${url}" that should refer to Jelly variables
+                     at run time, rather than be replaced with POM properties
+                     at build time.  -->
+                <filtering>false</filtering>
             </resource>
         </resources>
     </build>
