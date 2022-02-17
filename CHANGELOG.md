@@ -37,7 +37,7 @@
     `HUDSON_HOME/userContent` directory, and for absolute vs
     in-this-Hudson URLs.
 
-##### Verison 1.3 (10-Feb-2010)
+##### Version 1.3 (10-Feb-2010)
 
 -   Update code for more recent Hudson.
 
