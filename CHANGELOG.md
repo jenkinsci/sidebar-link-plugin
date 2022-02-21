@@ -70,23 +70,52 @@ controller.  Previous versions used `sidebar-link.xml` instead.
 
 -   Add support of Sidebar links for Jenkins Pipeline and other project
     types
-    ([JENKINS-33458](https://issues.jenkins-ci.org/browse/JENKINS-33458))
+    ([PR #9](https://github.com/jenkinsci/sidebar-link-plugin/pull/9),
+    fixes [JENKINS-33458](https://issues.jenkins-ci.org/browse/JENKINS-33458))
+-   Add Jenkinsfile
+    ([PR #10](https://github.com/jenkinsci/sidebar-link-plugin/pull/10))
 
 ## Version 1.9.1 (2017-07-12)
 
 -   Fix displaying of saved URL values in the configuration pages
-    ([JENKINS-45451](https://issues.jenkins-ci.org/browse/JENKINS-45451),
+    ([PR #8](https://github.com/jenkinsci/sidebar-link-plugin/pull/8),
+    fixes [JENKINS-45451](https://issues.jenkins-ci.org/browse/JENKINS-45451),
     regression in 1.9)
 
 ## Version 1.9 (2017-07-10)
 
--   [Fix security
-    issue](https://jenkins.io/security/advisory/2017-07-10/)
+-   Fix persisted XSS vulnerability
+    ([SECURITY-352](https://www.jenkins.io/security/advisory/2017-07-10/#persisted-xss-vulnerability-in-sidebar-link-plugin),
+    [CVE-2017-1000088](https://www.cve.org/CVERecord?id=CVE-2017-1000088))
+
+## Version 1.8 (2017-06-20)
+
+-   Add support for CloudBees Folders Plugin
+    ([PR #2](https://github.com/jenkinsci/sidebar-link-plugin/pull/2))
+-   Fix issues with empty link list in job
+    ([PR #3](https://github.com/jenkinsci/sidebar-link-plugin/pull/3),
+    fixes [JENKINS-15924](https://issues.jenkins.io/browse/JENKINS-15924))
+-   Add sidebar links for Computers
+    ([PR #4](https://github.com/jenkinsci/sidebar-link-plugin/pull/4),
+    fixes [JENKINS-24124](https://issues.jenkins.io/browse/JENKINS-24124))
+-   Add README.md
+    ([PR #6](https://github.com/jenkinsci/sidebar-link-plugin/pull/6))
+-   Allow reordering sidebar links
+    (fixes [JENKINS-41380](https://issues.jenkins.io/browse/JENKINS-41380))
+
+## Version 1.7 (2015-04-22)
+
+-   Raise version of Jenkins, so it can be run by java 7.
+    Fix bug which caused null pointer exception when user did not define any link.
+    ([PR #5](https://github.com/jenkinsci/sidebar-link-plugin/pull/5))
+-   Update maven pom to use repo.jenkins-ci.org repository.
 
 ## Version 1.6 (2011-07-24)
 
 -   Remove stray "\>" showing up on job config page.
--   Update for Jenkins.
+    ([JENKINS-10310](https://issues.jenkins.io/browse/JENKINS-10310))
+-   Update for Jenkins rather than Hudson.
+-   Translate more text to Japanese.
 
 ## Version 1.5 (2011-01-20)
 
@@ -95,7 +124,8 @@ controller.  Previous versions used `sidebar-link.xml` instead.
 -   Add ability to upload image files into `JENKINS_HOME/userContent`
     directory from global config page.
     ([JENKINS-8320](https://issues.jenkins-ci.org/browse/JENKINS-8320))
--   Japanese translation
+-   Japanese translation.
+    ([JENKINS-8523](https://issues.jenkins.io/browse/JENKINS-8523))
 
 ## Version 1.4 (2010-03-08)
 
@@ -106,10 +136,12 @@ controller.  Previous versions used `sidebar-link.xml` instead.
 ## Version 1.3 (2010-02-10)
 
 -   Update code for more recent Hudson.
+-   French and Russian translations.
 
 ## Version 1.2 (2009-05-23)
 
 -   Support for more than one link.
+    ([JENKINS-3577](https://issues.jenkins.io/browse/JENKINS-3577))
 
 ## Version 1.1 (2009-01-13)
 
