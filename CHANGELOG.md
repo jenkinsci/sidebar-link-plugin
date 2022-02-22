@@ -9,7 +9,7 @@
 
 ## Version 2.0.2 (2022-02-12)
 
--   Fix number hpi.forcompatibleSinceVersion
+-   Fix number for hpi.compatibleSinceVersion
     ([PR #38](https://github.com/jenkinsci/sidebar-link-plugin/pull/38),
     fixes [#37](https://github.com/jenkinsci/sidebar-link-plugin/issues/37))
 
