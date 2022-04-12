@@ -65,7 +65,7 @@ public class LinkAction implements Action {
         }
 
         if(StringUtils.isBlank(iconFileName)) {
-            iconFileName = "static/79e6e80a/images/svgs/help.svg";
+            iconFileName = "icon-help icon-md";
         }
 
         this.url = urlName;
