@@ -63,7 +63,7 @@ public class ProjectLinksTest {
         assertNotNull(sideBarLinkAction);
         assertEquals("http://example.com", sideBarLinkAction.getUrlName());
         assertEquals("Side Bar Example", sideBarLinkAction.getDisplayName());
-        assertEquals("static/efbf17e4/images/16x16/help.png", sideBarLinkAction.getIconFileName());
+        assertEquals("icon-help icon-md", sideBarLinkAction.getIconFileName());
     }
 
     @Test
@@ -94,6 +94,6 @@ public class ProjectLinksTest {
         LinkAction link = projectLinks.getLinks().get(0);
         assertEquals("http://example.com", link.getUrlName());
         assertEquals("Side Bar Example", link.getDisplayName());
-        assertEquals("static/efbf17e4/images/16x16/help.png", link.getIconFileName());
+        assertEquals("icon-help icon-md", link.getIconFileName());
     }
 }

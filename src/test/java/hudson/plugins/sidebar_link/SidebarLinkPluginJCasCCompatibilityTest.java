@@ -16,7 +16,7 @@ public class SidebarLinkPluginJCasCCompatibilityTest extends RoundTripAbstractTe
         }
         SidebarLinkPlugin descriptor = jenkins.getDescriptorByType(SidebarLinkPlugin.class);
         descriptor.getLinks().forEach((temp) -> {
-            assertEquals("static/efbf17e4/images/16x16/help.png", temp.getIconFileName());
+            assertEquals("icon-help icon-md", temp.getIconFileName());
             assertEquals("testlink", temp.getDisplayName());
             assertEquals("www.none.com", temp.getUrlName());
         });
