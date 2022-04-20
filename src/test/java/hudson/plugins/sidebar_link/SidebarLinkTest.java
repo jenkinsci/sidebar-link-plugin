@@ -79,13 +79,13 @@ public class SidebarLinkTest {
 
     public class SidebarLinkTestAction extends LinkAction {
         public SidebarLinkTestAction(String name) {
-            super(name, "test", null);
+            super(name, "test", null, false, false);
         }
 
         public void doDynamic(StaplerRequest req, StaplerResponse rsp) throws Exception {
             JSONObject formData = new JSONObject();
             formData.put("links", JSONObject.fromObject(
-                    new LinkAction("http://test.com/test", "Test Link", "test.gif")));
+                    new LinkAction("http://test.com/test", "Test Link", "test.gif", false, false)));
 
             File configFile = new File(j.jenkins.getRootDir(),"sidebarGlobalLink.xml");
             FileWriter writer = new FileWriter(configFile);

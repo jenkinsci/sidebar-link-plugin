@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 2.2 (2022-03-09)
+
+-   Add support for ref link
+
 ## Version 2.1.0 (2022-02-17)
 
 -   Fix icon upload iframe in global config
