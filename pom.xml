@@ -14,6 +14,8 @@
 
     <properties>
         <jenkins.version>2.332.2</jenkins.version>
+        <!-- downgrade hpi plugin because problem from version 3.25 when building locally -->
+        <hpi-plugin.version>3.24</hpi-plugin.version>
         <hpi.compatibleSinceVersion>2.0.0</hpi.compatibleSinceVersion>
     </properties>
 
