@@ -4,7 +4,8 @@
     <l:main-panel>
       <form method="post" action="uploadLinkImage" enctype="multipart/form-data">
         <span class="setting-name">${%Upload an image file:}</span>
-        <input type="file" name="linkimage.file" size="40"/>
+        <!-- TODO switch to f:file after baseline includes https://github.com/jenkinsci/jenkins/pull/7452 -->
+        <input type="file" name="linkimage.file" class="jenkins-file-upload" size="40"/>
         <st:nbsp/>
         <input type="submit" value="${%Upload}"/>
         <br/>
