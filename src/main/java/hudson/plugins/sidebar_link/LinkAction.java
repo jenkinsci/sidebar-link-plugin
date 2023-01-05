@@ -46,6 +46,8 @@ import org.kohsuke.stapler.StaplerRequest;
  */
 public class LinkAction implements Action {
 
+    public final  static String DEFAULT_ICON_NAME = "icon-help icon-md";
+
     private final String url, text, icon;
 
     /**
@@ -64,8 +66,8 @@ public class LinkAction implements Action {
             throw new IllegalArgumentException(validationResult);
         }
 
-        if(StringUtils.isBlank(iconFileName)) {
-            iconFileName = "icon-help icon-md";
+        if (StringUtils.isBlank(iconFileName)) {
+            iconFileName = DEFAULT_ICON_NAME;
         }
 
         this.url = urlName;
