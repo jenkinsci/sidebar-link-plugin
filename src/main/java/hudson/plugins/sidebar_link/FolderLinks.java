@@ -43,7 +43,7 @@ import hudson.Extension;
  * @author Daniel Beck
  */
 public class FolderLinks extends FolderProperty<Folder> {
-    private List<LinkAction> links = new ArrayList<LinkAction>();
+    private List<LinkAction> links;
 
     @DataBoundConstructor
     public FolderLinks(List<LinkAction> links) {
