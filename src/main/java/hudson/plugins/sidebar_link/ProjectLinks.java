@@ -47,7 +47,8 @@ import java.util.List;
  */
 @SuppressWarnings("rawtypes")
 public class ProjectLinks extends JobProperty<Job<?, ?>> {
-    private List<LinkAction> links = new ArrayList<>();
+
+    private List<LinkAction> links;
 
     @DataBoundConstructor
     public ProjectLinks(List<LinkAction> links) {

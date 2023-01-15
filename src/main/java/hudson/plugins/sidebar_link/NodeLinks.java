@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NodeLinks extends NodeProperty<Slave> {
+
     private List<LinkAction> links = new ArrayList<LinkAction>();
 
     @DataBoundConstructor
@@ -25,7 +26,7 @@ public class NodeLinks extends NodeProperty<Slave> {
 
     private Object readResolve() {
         if (links == null) {
-            links = new ArrayList<LinkAction>();
+            links = new ArrayList<>();
         }
         return this;
     }
@@ -37,5 +38,4 @@ public class NodeLinks extends NodeProperty<Slave> {
             return "Sidebar Links";
         }
     }
-
 }
