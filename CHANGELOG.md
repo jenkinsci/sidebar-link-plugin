@@ -1,5 +1,17 @@
 # Change Log
 
+## Version 2.2.1 (2023-01-19)
+
+-   Apply upcoming core styling to file upload https://github.com/jenkinsci/sidebar-link-plugin/pull/46
+-   Do not validate icon if default one is used https://github.com/jenkinsci/sidebar-link-plugin/pull/50
+-   Update dependencies
+
+## Version 2.2.0 (2023-04-22)
+
+-   Fixes default icon name [JENKINS-68250](https://issues.jenkins.io/browse/JENKINS-68250)
+-   Update dependencies
+
+
 ## Version 2.1.0 (2022-02-17)
 
 -   Fix icon upload iframe in global config
