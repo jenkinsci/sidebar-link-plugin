@@ -23,10 +23,10 @@
  */
 package hudson.plugins.sidebar_link;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 
@@ -57,8 +57,6 @@ import jenkins.model.Jenkins;
 @Extension
 @Symbol("sidebarGlobalLink")
 public class SidebarLinkPlugin extends GlobalConfiguration {
-    @SuppressWarnings("unused")
-    private static final Logger LOGGER = Logger.getLogger(SidebarLinkPlugin.class.getName());
 
     private List<LinkAction> links = new ArrayList<>();
 
@@ -116,7 +114,7 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
         }
         rsp.setContentType("text/html");
         rsp.getWriter().println(
-                (error != null ? error : Messages.Uploaded("<tt>/" + filename + "</tt>"))
+                (error != null ? error : Messages.Uploaded("<code>/" + filename + "</code>"))
                         + " <a href=\"javascript:history.back()\">" + Messages.Back() + "</a>");
     }
 
@@ -135,20 +133,49 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
 
     @Restricted(NoExternalUse.class)
     public FormValidation doCheckLinkIcon(@QueryParameter String value) {
+        // use default icon when value is not provided
         if (StringUtils.isBlank(value)) {
-            return FormValidation.warning("The provided icon is blank or empty. Default will be used.");
-        } else
-            // do not validate if default icon is used
-            if (!value.equals(LinkAction.DEFAULT_ICON_NAME)) {
-            FilePath imageFile = Jenkins.get().getRootPath().child(value);
-            try {
-                if (!imageFile.exists()) {
-                    return FormValidation.error("Image does not exist:  " + imageFile);
-                }
-            } catch (Exception e) {
-                return FormValidation.error(e, "Problem with link icon:  " + value);
+            return FormValidation.warning("The provided icon is blank or empty. "
+                    + "Default will be used: " + LinkAction.DEFAULT_ICON_NAME);
+        }
+
+        // do not validate if default icon is used
+        if (value.equals(LinkAction.DEFAULT_ICON_NAME)) {
+            return FormValidation.ok();
+        }
+
+        // icons supported out of the box by Jenkins
+        if (isAcceptedIconName(value)) {
+            return FormValidation.ok();
+        }
+
+        try {
+            File jenkinsHomeDirectory = Jenkins.get().getRootDir();
+            String userContentDirectory = jenkinsHomeDirectory.getCanonicalPath() + File.separatorChar + "userContent";
+            File imageFile = new File(jenkinsHomeDirectory, value);
+
+            String canonicalPath = imageFile.getCanonicalPath();
+            if (!canonicalPath.startsWith(userContentDirectory)) {
+                return FormValidation.error("Use path to JENKINS_HOME/userContent directory, eg. userContent/myIcon.png");
             }
+
+            if (!imageFile.exists()) {
+                return FormValidation.error("Image does not exist. "
+                        + "Open browser with /userContent to check available images");
+            }
+        } catch (IOException e) {
+            return FormValidation.error(e, "Problem with link icon:  " + value);
         }
         return FormValidation.ok();
+    }
+
+    /**
+     * Validates if passed icon may be supported by Jenkins.
+     * It accepts values like <code>document</code>, <code>disabled.gif</code> or <code>document-properties.svg</code>.
+     * List of supported icons located in JENKINS_HOME/var/images directory.
+     */
+    public boolean isAcceptedIconName(String iconName) {
+        // accepts .gif extension as a compatibility with older version of the plugin
+        return iconName.matches(("^[\\w-]+(\\.gif)?$"));
     }
 }
