@@ -149,6 +149,11 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
             return FormValidation.ok();
         }
 
+        // symbol supported out of the box by Jenkins
+        if (isAcceptedSymbol(value)) {
+            return FormValidation.ok();
+        }
+
         try {
             File jenkinsHomeDirectory = Jenkins.get().getRootDir();
             String userContentDirectory = jenkinsHomeDirectory.getCanonicalPath() + File.separatorChar + "userContent";
@@ -178,4 +183,9 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
         // accepts .gif extension as a compatibility with older version of the plugin
         return iconName.matches(("^[\\w-]+(\\.gif)?$"));
     }
+
+    private boolean isAcceptedSymbol(String iconName) {
+        return iconName.matches("^symbol-[-\\w]+(\\s+plugin-[-\\w]+)?\\s*$");
+    }
+
 }
