@@ -98,14 +98,14 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
         String error = null;
         String filename = null;
         if (file == null || file.getName().isEmpty())
-            error = Messages.NoFile();
+            error = Messages.noFile();
         else {
             filename = "userContent/"
                     // Sanitize given filename:
                     + file.getName().replaceFirst(".*/", "").replaceAll("[^\\w.,;:()#@!=+-]", "_");
             FilePath imageFile = jenkins.getRootPath().child(filename);
             if (imageFile.exists())
-                error = Messages.DupName();
+                error = Messages.dupName();
             else {
                 imageFile.copyFrom(file.getInputStream());
                 imageFile.chmod(0644);
@@ -114,7 +114,7 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
         if (error != null) {
             rsp.setStatus(400);
         }
-        rsp.getWriter().println(error != null ? error : Messages.Uploaded("'/" + filename + "'"));
+        rsp.getWriter().println(error != null ? error : Messages.uploaded("'/" + filename + "'"));
     }
 
     @Restricted(NoExternalUse.class)
