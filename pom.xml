@@ -3,17 +3,20 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.53</version>
+        <version>4.65</version>
     </parent>
 
     <artifactId>sidebar-link</artifactId>
     <packaging>hpi</packaging>
     <name>Sidebar Link</name>
-    <version>2.2.3-SNAPSHOT</version>
+    <version>${revision}${changelist}</version>
     <url>https://github.com/jenkinsci/sidebar-link-plugin</url>
 
     <properties>
-        <java.level>11</java.level>
+        <jenkins.version>2.387.3</jenkins.version>
+        <revision>2.2.3</revision>
+        <changelist>-SNAPSHOT</changelist>
+        <gitHubRepo>jenkinsci/sidebar-link-plugin</gitHubRepo>
     </properties>
 
     <dependencyManagement>
@@ -22,8 +25,8 @@
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.346.x</artifactId>
-                <version>1763.v092b_8980a_f5e</version>
+                <artifactId>bom-2.387.x</artifactId>
+                <version>2133.v2e6c00fe4d61</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -34,10 +37,6 @@
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>cloudbees-folder</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jenkins-ci.plugins</groupId>
-            <artifactId>structs</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jenkinsci.plugins</groupId>
@@ -98,10 +97,10 @@
     </description>
 
     <scm>
-      <connection>scm:git:git@github.com/jenkinsci/sidebar-link-plugin.git</connection>
-      <developerConnection>scm:git:git@github.com:jenkinsci/sidebar-link-plugin.git</developerConnection>
-      <url>https://github.com/jenkinsci/sidebar-link-plugin</url>
-      <tag>HEAD</tag>
+      <connection>scm:git:https@github.com/${gitHubRepo}.git</connection>
+      <developerConnection>scm:git:https@github.com:${gitHubRepo}.git</developerConnection>
+      <url>https://github.com/${gitHubRepo}</url>
+      <tag>${scmTag}</tag>
     </scm>
 
     <repositories>
