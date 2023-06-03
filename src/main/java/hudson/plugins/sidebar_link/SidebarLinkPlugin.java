@@ -43,7 +43,6 @@ import org.kohsuke.stapler.interceptor.RequirePOST;
 
 import hudson.Extension;
 import hudson.FilePath;
-import hudson.model.Hudson;
 import hudson.util.FormValidation;
 import jenkins.model.GlobalConfiguration;
 import jenkins.model.Jenkins;
@@ -94,7 +93,7 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
     public void doUploadLinkImage(StaplerRequest req, StaplerResponse rsp)
             throws IOException, ServletException, InterruptedException {
         Jenkins jenkins = Jenkins.get();
-        jenkins.checkPermission(Hudson.ADMINISTER);
+        jenkins.checkPermission(Jenkins.ADMINISTER);
         FileItem file = req.getFileItem("linkimage.file");
         String error = null;
         String filename = null;
@@ -112,10 +111,10 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
                 imageFile.chmod(0644);
             }
         }
-        rsp.setContentType("text/html");
-        rsp.getWriter().println(
-                (error != null ? error : Messages.Uploaded("<code>/" + filename + "</code>"))
-                        + " <a href=\"javascript:history.back()\">" + Messages.Back() + "</a>");
+        if (error != null) {
+            rsp.setStatus(400);
+        }
+        rsp.getWriter().println(error != null ? error : Messages.Uploaded("'/" + filename + "'"));
     }
 
     @Restricted(NoExternalUse.class)
