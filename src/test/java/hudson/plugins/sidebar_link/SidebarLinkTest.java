@@ -35,8 +35,8 @@ import org.jvnet.hudson.test.JenkinsRule;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import org.htmlunit.html.HtmlAnchor;
+import org.htmlunit.html.HtmlForm;
 
 import net.sf.json.JSONObject;
 
@@ -69,7 +69,7 @@ public class SidebarLinkTest {
 
         // Create view and verify link appears on other view tabs too
         HtmlForm form = wc.goTo("newView").getFormByName("createItem");
-        form.getInputByName("name").setValueAttribute("test-view");
+        form.getInputByName("name").setValue("test-view");
         form.getInputByValue("hudson.model.ListView").setChecked(true);
         j.submit(form);
         link = wc.goTo("view/test-view/").getAnchorByText("Test Link");
