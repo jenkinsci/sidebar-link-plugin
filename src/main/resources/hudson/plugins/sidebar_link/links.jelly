@@ -3,14 +3,22 @@
     <!-- l:header does not work here -->
     <f:repeatable var="link" items="${instance.links}" name="links" add="${%Add Link}" header="${%Sidebar Link}">
         <f:entry title="${%Link URL}" help="/plugin/sidebar-link/help-url.html">
-            <f:textbox name="urlName" value="${link.unprotectedUrlName}" field="linkUrl"/>
+            <f:textbox name="urlName" value="${link.unprotectedUrlName}" field="linkUrl"
+                       checkUrl="${rootURL}/descriptorByName/hudson.plugins.sidebar_link.SidebarLinkPlugin/checkLinkUrl"
+                       checkDependsOn="" />
         </f:entry>
         <f:entry title="${%Link Text}">
-            <f:textbox name="displayName" value="${link.displayName}" field="linkText"/>
+            <f:textbox name="displayName" value="${link.displayName}" field="linkText"
+                       checkUrl="${rootURL}/descriptorByName/hudson.plugins.sidebar_link.SidebarLinkPlugin/checkLinkText"
+                       checkDependsOn="" />
         </f:entry>
         <f:entry title="${%Link Icon}" help="/plugin/sidebar-link/help-icon.html">
-            <f:textbox name="iconFileName" value="${link.iconFileName}" field="linkIcon"/>
+            <f:textbox name="iconFileName" value="${link.iconFileName}" field="linkIcon"
+                       checkUrl="${rootURL}/descriptorByName/hudson.plugins.sidebar_link.SidebarLinkPlugin/checkLinkIcon"
+                       checkDependsOn="" />
         </f:entry>
-        <f:repeatableDeleteButton/>
+        <f:entry>
+            <f:repeatableDeleteButton/>
+        </f:entry>
     </f:repeatable>
 </j:jelly>
