@@ -1,5 +1,10 @@
 # Change Log
 
+## Version 2.2.4 (2023-06-24)
+
+- JENKINS-71391 always validate fields [f17aa3367a460bf2525571b83669c9678ed870ee](https://github.com/jenkinsci/sidebar-link-plugin/commit/f17aa3367a460bf2525571b83669c9678ed870ee)
+-   Update dependencies
+
 ## Version 2.2.1 (2023-01-19)
 
 -   Apply upcoming core styling to file upload https://github.com/jenkinsci/sidebar-link-plugin/pull/46
