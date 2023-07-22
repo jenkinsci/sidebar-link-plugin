@@ -97,7 +97,7 @@
     </description>
 
     <scm>
-      <connection>scm:git:ssh://git@github.com/${gitHubRepo}.git</connection>
+      <connection>scm:git:https://git@github.com/${gitHubRepo}.git</connection>
       <developerConnection>scm:git:ssh://git@github.com/${gitHubRepo}.git</developerConnection>
       <url>https://github.com/${gitHubRepo}</url>
       <tag>${scmTag}</tag>
