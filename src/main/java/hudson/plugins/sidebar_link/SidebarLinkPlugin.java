@@ -151,7 +151,7 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
 
         try {
             File jenkinsHomeDirectory = Jenkins.get().getRootDir();
-            String userContentDirectory = jenkinsHomeDirectory.getCanonicalPath() + File.separatorChar + "userContent";
+            String userContentDirectory = jenkinsHomeDirectory.getCanonicalPath() + File.separatorChar + "userContent" + File.separatorChar;
             File imageFile = new File(jenkinsHomeDirectory, value);
 
             String canonicalPath = imageFile.getCanonicalPath();
