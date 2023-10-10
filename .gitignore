@@ -4,3 +4,7 @@ target
 .settings
 *.iml
 .idea/
+
+# Files created by maven-release-plugin when release is performed
+pom.xml.releaseBackup
+release.properties
