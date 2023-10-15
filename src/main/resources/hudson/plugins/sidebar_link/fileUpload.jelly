@@ -1,0 +1,36 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:f="/lib/form">
+  <st:documentation>
+    Generates an input field <code>&lt;input type="file" ... /></code>
+    and a button to upload the selected file asynchronously to the given URL.
+    <st:attribute name="title" use="required">
+      Title for the input
+    </st:attribute>
+    <st:attribute name="url" use="required">
+      URL were to upload
+    </st:attribute>
+    <st:attribute name="description">
+      URL were to upload
+    </st:attribute>
+    <st:attribute name="buttonValue">
+      The text of the upload button
+    </st:attribute>
+
+  </st:documentation>
+
+  <f:entry title="${attrs.title}">
+    <div class="sidebar-link__file-upload">
+      <f:file clazz="sidebar-link__file-upload-input"/>
+      <button data-url="${url}"
+              type="button"
+              class="sidebar-link__file-upload-button jenkins-button jenkins-button--primary">
+        ${attrs.buttonValue ?: '%Upload'}
+      </button>
+      <br/>
+      <j:if test="${attrs.description != ''}">
+        <span class="setting-description">${attrs.description}</span>
+      </j:if>
+    </div>
+  </f:entry>
+  <st:adjunct includes="hudson.plugins.sidebar_link.upload"/>
+</j:jelly>

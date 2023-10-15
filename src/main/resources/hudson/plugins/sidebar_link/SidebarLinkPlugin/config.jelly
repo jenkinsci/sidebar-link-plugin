@@ -1,16 +1,13 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:sl="/hudson/plugins/sidebar_link">
-  <st:adjunct includes="hudson.plugins.sidebar_link.SidebarLinkPlugin.upload"/>
   <f:section title="${%Additional Sidebar Links}">
     <f:entry title="${%Sidebar Links}"
              description="${%List of extra links for Jenkins main pages and view tabs}">
       <sl:links links="${it.links}"/>
     </f:entry>
-    <f:entry title="${%Upload an image file}">
-      <f:file/>
-      <button id="sidebar-link-upload-button" data-url="${rootURL}/descriptorByName/hudson.plugins.sidebar_link.SidebarLinkPlugin/uploadLinkImage" type="button" class="jenkins-button jenkins-button--primary">${%Upload}</button>
-      <br/>
-      <span class="setting-description">${%Image should be square; will be rendered as 24x24.}</span>
-    </f:entry>
+    <sl:fileUpload title="${%Upload an image file}"
+                   url="${rootURL}/descriptorByName/hudson.plugins.sidebar_link.SidebarLinkPlugin/uploadLinkImage"
+                   description="${%Image should be square; will be rendered as 24x24.}"
+    />
   </f:section>
 </j:jelly>

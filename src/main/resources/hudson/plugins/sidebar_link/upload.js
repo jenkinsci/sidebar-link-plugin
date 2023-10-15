@@ -1,11 +1,12 @@
-Behaviour.specify("#sidebar-link-upload-button", "sidebar-link-upload", 0, function(e) {
-    e.onclick = async function() {
+Behaviour.specify(".sidebar-link__file-upload", "sidebar-link-upload", 0, function(element) {
+    const button = element.querySelector('.sidebar-link__file-upload-button');
+    button.onclick = async function() {
+        const fileField = element.querySelector('.sidebar-link__file-upload-input');
         let formData = new FormData();
-        const fileField = document.querySelector('input[type="file"]');
         if (fileField.files.length == 0) {
             notificationBar.show("No file chosen.", notificationBar.WARNING);
         } else {
-            const url = e.getAttribute("data-url");
+            const url = button.getAttribute("data-url");
             formData.append("linkimage.file", fileField.files[0]);
             const result = await fetch(url, {
                 method: "POST",
