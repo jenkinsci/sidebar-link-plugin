@@ -26,10 +26,12 @@ package hudson.plugins.sidebar_link;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
 
+import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.Symbol;
@@ -64,6 +66,15 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
         // When Jenkins is restarted, load any saved configuration from disk.
         load();
         Jenkins.get().getActions().addAll(links);
+    }
+
+    @Override
+    public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
+        super.configure(req, json);
+        if (!json.containsKey("links")) {
+            setLinks(Collections.emptyList());
+        }
+        return true;
     }
 
     /** @return the currently configured links, if any */
