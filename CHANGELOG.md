@@ -1,8 +1,17 @@
 # Change Log
 
+## Version 2.4.0 (2023-10-26)
+
+-   It's impossible to delete all global sidebar links [bcf37fa9fbee76464c5fcff9c1c9c7a6afbbe39](https://github.com/jenkinsci/sidebar-link-plugin/commit/1bcf37fa9fbee76464c5fcff9c1c9c7a6afbbe39) JENKINS-72183
+-   Update dependencies
+
+## Version 2.3.0 (2023-10-08)
+
+-   Update dependencies
+
 ## Version 2.2.4 (2023-06-24)
 
-- JENKINS-71391 always validate fields [f17aa3367a460bf2525571b83669c9678ed870ee](https://github.com/jenkinsci/sidebar-link-plugin/commit/f17aa3367a460bf2525571b83669c9678ed870ee)
+-   JENKINS-71391 always validate fields [f17aa3367a460bf2525571b83669c9678ed870ee](https://github.com/jenkinsci/sidebar-link-plugin/commit/f17aa3367a460bf2525571b83669c9678ed870ee)
 -   Update dependencies
 
 ## Version 2.2.1 (2023-01-19)
@@ -15,7 +24,6 @@
 
 -   Fixes default icon name [JENKINS-68250](https://issues.jenkins.io/browse/JENKINS-68250)
 -   Update dependencies
-
 
 ## Version 2.1.0 (2022-02-17)
 
