@@ -22,8 +22,9 @@
     <div class="sidebar-link__file-upload">
       <f:file clazz="sidebar-link__file-upload-input"/>
       <button data-url="${url}"
+              data-no-file="${%noFile}"
               type="button"
-              class="sidebar-link__file-upload-button jenkins-button jenkins-button--primary">
+              class="sidebar-link__file-upload-button jenkins-button jenkins-button--primary jenkins-!-margin-bottom-1">
         ${attrs.buttonValue ?: '%Upload'}
       </button>
       <br/>

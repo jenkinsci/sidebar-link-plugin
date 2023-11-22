@@ -1,10 +1,11 @@
 Behaviour.specify(".sidebar-link__file-upload", "sidebar-link-upload", 0, function(element) {
     const button = element.querySelector('.sidebar-link__file-upload-button');
+    const noFileMessage = button.dataset.noFile;
     button.onclick = async function() {
         const fileField = element.querySelector('.sidebar-link__file-upload-input');
         let formData = new FormData();
         if (fileField.files.length == 0) {
-            notificationBar.show("No file chosen.", notificationBar.WARNING);
+            notificationBar.show(noFileMessage, notificationBar.WARNING);
         } else {
             const url = button.getAttribute("data-url");
             formData.append("linkimage.file", fileField.files[0]);
