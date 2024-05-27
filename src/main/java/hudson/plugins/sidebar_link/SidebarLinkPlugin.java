@@ -33,7 +33,6 @@ import javax.servlet.ServletException;
 
 import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.Symbol;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
@@ -136,7 +135,7 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
 
     @Restricted(NoExternalUse.class)
     public FormValidation doCheckLinkText(@QueryParameter String value) {
-        if (StringUtils.isBlank(value)) {
+        if (value == null || value.isBlank()) {
             return FormValidation.error("The provided text is blank or empty");
         }
         return FormValidation.ok();
@@ -145,7 +144,7 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
     @Restricted(NoExternalUse.class)
     public FormValidation doCheckLinkIcon(@QueryParameter String value) {
         // use default icon when value is not provided
-        if (StringUtils.isBlank(value)) {
+        if (value == null || value.isBlank()) {
             return FormValidation.warning("The provided icon is blank or empty. "
                     + "Default will be used: " + LinkAction.DEFAULT_ICON_NAME);
         }
