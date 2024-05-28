@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 
 import hudson.model.Action;
 import hudson.util.FormValidation;
-import io.jenkins.cli.shaded.org.apache.commons.lang.StringUtils;
 
 import javax.annotation.CheckForNull;
 import org.kohsuke.accmod.Restricted;
@@ -68,7 +67,7 @@ public class LinkAction implements Action {
 
         this.url = urlName;
         this.text = displayName;
-        this.icon = StringUtils.defaultIfBlank(iconFileName, DEFAULT_ICON_NAME);
+        this.icon = (iconFileName == null || iconFileName.isBlank()) ? DEFAULT_ICON_NAME : iconFileName;
         LOGGER.info(String.format("Created link '%s': url='%s', icon='%s'", this.text, this.url, this.icon));
     }
 

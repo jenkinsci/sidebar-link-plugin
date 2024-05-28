@@ -33,7 +33,6 @@ import hudson.util.FormValidation;
 import javax.annotation.CheckForNull;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
-import org.apache.commons.lang.StringUtils;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
 
@@ -65,13 +64,13 @@ class LinkProtection {
 
     @Nonnull
     public static String getAllowedUriSchemes() {
-        return StringUtils.join(ALLOWED_URI_SCHEMES, ',');
+        return String.join(",", ALLOWED_URI_SCHEMES);
     }
 
     @CheckReturnValue
     @Nonnull
     public static FormValidation verifyUrl(@CheckForNull String urlString) {
-        if (StringUtils.isBlank(urlString)) {
+        if (urlString == null || urlString.isBlank()) {
             return FormValidation.warning("The provided URL is blank or empty");
         }
 
