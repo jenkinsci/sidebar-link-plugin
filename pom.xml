@@ -13,7 +13,9 @@
     <url>https://github.com/jenkinsci/sidebar-link-plugin</url>
 
     <properties>
-        <jenkins.version>2.387.3</jenkins.version>
+        <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
+        <jenkins.baseline>2.387</jenkins.baseline>
+        <jenkins.version>${jenkins.baseline}.3</jenkins.version>
         <revision>2.4.2</revision>
         <changelist>-SNAPSHOT</changelist>
         <gitHubRepo>jenkinsci/sidebar-link-plugin</gitHubRepo>
@@ -25,7 +27,7 @@
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.387.x</artifactId>
+                <artifactId>bom-${jenkins.baseline}.x</artifactId>
                 <version>2543.vfb_1a_5fb_9496d</version>
                 <type>pom</type>
                 <scope>import</scope>
