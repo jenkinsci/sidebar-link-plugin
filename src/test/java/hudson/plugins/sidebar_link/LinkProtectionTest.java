@@ -23,62 +23,60 @@
  */
 package hudson.plugins.sidebar_link;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import hudson.util.FormValidation;
+import org.hamcrest.core.StringContains;
+import org.junit.jupiter.api.Test;
+import org.jvnet.hudson.test.Issue;
+import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.not;
-
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.StringContains;
-import org.junit.Rule;
-import org.junit.Test;
-import org.jvnet.hudson.test.Issue;
-import org.jvnet.hudson.test.JenkinsRule;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import hudson.util.FormValidation;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for the {@link LinkProtection} engine.
  *
  * @author Oleg Nenashev
  */
-public class LinkProtectionTest {
-
-    @Rule
-    public JenkinsRule rule = new JenkinsRule();
+@WithJenkins
+class LinkProtectionTest {
 
     @Test
-    public void shouldAcceptAbsoluteLinks() {
-        assertLinkIsAccepted("http://localhost:8080/jenkins");
-        assertLinkIsAccepted("HTTP://localhost:8080/jenkins");
-        assertLinkIsAccepted("https://localhost:8080/jenkins");
-        assertLinkIsAccepted("https://localhost:8080");
-        assertLinkIsAccepted("https://localhost:8080/jenkins?myparam=1&myparam2=value");
-        assertLinkIsAccepted("mailto:my@nonexistentinbox.com");
+    void shouldAcceptAbsoluteLinks(JenkinsRule rule) {
+        assertLinkIsAccepted(rule, "http://localhost:8080/jenkins");
+        assertLinkIsAccepted(rule, "HTTP://localhost:8080/jenkins");
+        assertLinkIsAccepted(rule, "https://localhost:8080/jenkins");
+        assertLinkIsAccepted(rule, "https://localhost:8080");
+        assertLinkIsAccepted(rule, "https://localhost:8080/jenkins?myparam=1&myparam2=value");
+        assertLinkIsAccepted(rule, "mailto:my@nonexistentinbox.com");
 
         // Java Web Start should always ask for confirmation hence it is probably fine
-        assertLinkIsAccepted("https://localhost:8080/computer/agent1/my.jnlp");
+        assertLinkIsAccepted(rule, "https://localhost:8080/computer/agent1/my.jnlp");
     }
 
     @Test
-    public void shouldAcceptRelativeLinks() {
-        assertLinkIsAccepted("computer");
-        assertLinkIsAccepted("/computer");
-        assertLinkIsAccepted("../computer");
+    void shouldAcceptRelativeLinks(JenkinsRule rule) {
+        assertLinkIsAccepted(rule, "computer");
+        assertLinkIsAccepted(rule, "/computer");
+        assertLinkIsAccepted(rule, "../computer");
     }
 
     @Test
     @Issue("SECURITY-352")
-    public void shouldNotAcceptNonUrlLinks() {
+    void shouldNotAcceptNonUrlLinks(JenkinsRule rule) {
         // Javascript
-        assertSchemeIsNotAccepted("javascript:alert(document.domain)", "javascript");
-        assertSchemeIsNotAccepted("JAVASCRIPT:alert(document.domain)", "javascript");
+        assertSchemeIsNotAccepted(rule, "javascript:alert(document.domain)", "javascript");
+        assertSchemeIsNotAccepted(rule, "JAVASCRIPT:alert(document.domain)", "javascript");
 
         // File access
-        assertSchemeIsNotAccepted("file:///var/lib/myfile.html", "file");
+        assertSchemeIsNotAccepted(rule, "file:///var/lib/myfile.html", "file");
 
         // Whatever custom scheme (e.g. on smartphone browsers)
-        assertSchemeIsNotAccepted("twitter://iamhacked_lol", "twitter");
+        assertSchemeIsNotAccepted(rule, "twitter://iamhacked_lol", "twitter");
     }
 
     /**
@@ -86,29 +84,18 @@ public class LinkProtectionTest {
      * Validation warnings are fine
      *
      * @param url URL
-     * @throws AssertionError Assertion failure
      */
-    public void assertLinkIsAccepted(@CheckForNull String url) throws AssertionError {
+    private static void assertLinkIsAccepted(JenkinsRule rule, @CheckForNull String url) {
         SidebarLinkPlugin descriptor = rule.jenkins.getDescriptorByType(SidebarLinkPlugin.class);
         FormValidation validationResult = descriptor.doCheckLinkUrl(url);
-        MatcherAssert.assertThat("Expected the validation of link '" + "' to pass, but got " + validationResult,
+        assertThat("Expected the validation of link '" + "' to pass, but got " + validationResult,
                 validationResult.kind, not(equalTo(FormValidation.Kind.ERROR)));
 
         new LinkAction(url, "test link", null);
     }
 
-    /**
-     * Checks that the URL validation does not the specified URL.
-     *
-     * @param url URL
-     * @throws AssertionError Assertion failure
-     */
-    public void assertLinkIsNotAccepted(@CheckForNull String url) throws AssertionError {
-        assertLinkIsNotAccepted(url, null);
-    }
-
-    public void assertSchemeIsNotAccepted(@CheckForNull String url, String scheme) throws AssertionError {
-        assertLinkIsNotAccepted(url, "URI scheme &quot;" + scheme + "&quot; is not allowed.");
+    private static void assertSchemeIsNotAccepted(JenkinsRule rule, @CheckForNull String url, String scheme) {
+        assertLinkIsNotAccepted(rule, url, "URI scheme &quot;" + scheme + "&quot; is not allowed.");
     }
 
     /**
@@ -116,33 +103,29 @@ public class LinkProtectionTest {
      *
      * @param url                 URL
      * @param expectedMessagePart Expected error message segment
-     * @throws AssertionError Assertion failure
      */
-    public void assertLinkIsNotAccepted(@CheckForNull String url, @CheckForNull String expectedMessagePart) throws AssertionError {
+    private static void assertLinkIsNotAccepted(JenkinsRule rule, @CheckForNull String url, @CheckForNull String expectedMessagePart) {
         // Try Form validation first
         SidebarLinkPlugin descriptor = rule.jenkins.getDescriptorByType(SidebarLinkPlugin.class);
         FormValidation validationResult = descriptor.doCheckLinkUrl(url);
-        MatcherAssert.assertThat("Expected the validation of link '" + url + "' to fail, but got " + validationResult,
+        assertThat("Expected the validation of link '" + url + "' to fail, but got " + validationResult,
                 validationResult.kind, equalTo(FormValidation.Kind.ERROR));
         if (expectedMessagePart != null) {
-            MatcherAssert.assertThat("Expected another error message",
+            assertThat("Expected another error message",
                     validationResult.getMessage(), StringContains.containsString(expectedMessagePart));
         }
 
-        // Try to instantinate LinkAction
-        try {
-            new LinkAction(url, "test URL", null);
-        } catch (IllegalArgumentException ex) {
-            MatcherAssert.assertThat(ex.getCause(), instanceOf(FormValidation.class));
-            FormValidation res = (FormValidation) ex.getCause();
-            MatcherAssert.assertThat("Expected the validation of link '" + url + "' to fail in the LinkAction, but got " + res,
-                    res.kind, equalTo(FormValidation.Kind.ERROR));
-            if (expectedMessagePart != null) {
-                MatcherAssert.assertThat("Expected another error message",
-                        res.getMessage(), StringContains.containsString(expectedMessagePart));
-            }
-            return;
+        // Try to instantiate LinkAction
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> new LinkAction(url, "test URL", null),
+                "Expected the LinkAction constructor to throw an exception");
+        assertThat(ex.getCause(), instanceOf(FormValidation.class));
+        FormValidation res = (FormValidation) ex.getCause();
+        assertThat("Expected the validation of link '" + url + "' to fail in the LinkAction, but got " + res,
+                res.kind, equalTo(FormValidation.Kind.ERROR));
+        if (expectedMessagePart != null) {
+            assertThat("Expected another error message",
+                    res.getMessage(), StringContains.containsString(expectedMessagePart));
         }
-        org.junit.Assert.fail("Expected the LinkAction constructor to throw an exception");
     }
 }
