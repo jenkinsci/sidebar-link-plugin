@@ -1,21 +1,19 @@
 package hudson.plugins.sidebar_link;
 
-import static org.junit.Assert.assertEquals;
-
-import org.jvnet.hudson.test.RestartableJenkinsRule;
-
-import io.jenkins.plugins.casc.misc.RoundTripAbstractTest;
+import io.jenkins.plugins.casc.misc.junit.jupiter.AbstractRoundTripTest;
 import jenkins.model.Jenkins;
+import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class SidebarLinkPluginJCasCCompatibilityTest extends RoundTripAbstractTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@WithJenkins
+public class SidebarLinkPluginJCasCCompatibilityTest extends AbstractRoundTripTest {
     @Override
-    protected void assertConfiguredAsExpected(RestartableJenkinsRule restartableJenkinsRule, String s) {
+    protected void assertConfiguredAsExpected(JenkinsRule restartableJenkinsRule, String s) {
         final Jenkins jenkins = Jenkins.get();
-        if (jenkins == null) {
-            throw new IllegalStateException("Jenkins instance is not ready");
-        }
         SidebarLinkPlugin descriptor = jenkins.getDescriptorByType(SidebarLinkPlugin.class);
-        descriptor.getLinks().forEach((temp) -> {
+        descriptor.getLinks().forEach(temp -> {
             assertEquals("icon-help icon-md", temp.getIconFileName());
             assertEquals("testlink", temp.getDisplayName());
             assertEquals("www.none.com", temp.getUrlName());
