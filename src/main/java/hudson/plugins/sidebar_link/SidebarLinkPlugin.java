@@ -125,7 +125,7 @@ public class SidebarLinkPlugin extends GlobalConfiguration {
         rsp.setContentType("text/html");
         rsp.getWriter().println(
                 (error != null ? error : Messages.Uploaded("<code>/" + filename + "</code>"))
-                        + " <a href=\"javascript:history.back()\">" + Messages.Back() + "</a>");
+                        + " <a href=\"startUpload\">" + Messages.Back() + "</a>");
     }
 
     @Restricted(NoExternalUse.class)
